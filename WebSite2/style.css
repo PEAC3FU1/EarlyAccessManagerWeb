@@ -1,0 +1,99 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(to bottom, #ffffff 0%, #e0e0e0 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    padding: 40px;
+}
+
+.horse-image {
+    max-width: 400px;
+    width: 90%;
+    height: auto;
+    object-fit: contain;
+    cursor: pointer;
+    user-select: none;
+}
+
+.button-container {
+    position: relative;
+    max-width: 300px;
+    width: 80%;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.button-container:hover {
+    transform: scale(1.02);
+}
+
+.button-container:active {
+    transform: scale(0.98);
+}
+
+.button-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.button-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 2.5em;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.05em;
+}
+
+@media (max-width: 768px) {
+    .container {
+        gap: 40px;
+        padding: 20px;
+    }
+    
+    .horse-image {
+        max-width: 300px;
+    }
+    
+    .button-image {
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        gap: 30px;
+    }
+    
+    .horse-image {
+        max-width: 250px;
+    }
+    
+    .button-image {
+        max-width: 200px;
+    }
+}

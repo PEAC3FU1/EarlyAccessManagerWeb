@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>After Dark - Dark Silence Event</title>
+    <link rel="stylesheet" href="style-events.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css'>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="container">
+        <a href="index.html" class="back-btn">
+            <i class="fi fi-rr-angle-left"></i>
+            Back to Events
+        </a>
+        <header>
+            <img src="assets/AfterDark.png" alt="After Dark Logo" class="logo">
+            <h1 class="title">AFTER DARK</h1>
+            <p class="subtitle">Dark Silence Community Event</p>
+        </header>
+
+        <section class="event-info">
+            <div class="event-card main-event">
+                <div class="event-badge">MONTH 2</div>
+                <h2>BIG EVENT UPCOMING</h2>
+                <div class="event-details">
+                    <div class="detail-item">
+                        <i class="fi fi-rr-calendar icon-fi"></i>
+                        <div class="text">
+                            <strong>Date</strong>
+                            <p>February 12th, 2026</p>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fi fi-rr-clock icon-fi"></i>
+                        <div class="text">
+                            <strong>Time</strong>
+                            <p>5-6 PM EST</p>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fi fi-rr-target icon-fi"></i>
+                        <div class="text">
+                            <strong>Goal</strong>
+                            <p>50+ Players Online</p>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fi fi-rr-user icon-fi"></i>
+                        <div class="text">
+                            <strong>Host</strong>
+                            <p>Broseph (9.8K)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rewards-section">
+                <h3>Event Rewards</h3>
+                <div class="reward-card">
+                    <i class="fi fi-rr-gift reward-icon-fi"></i>
+                    <p>Join the event for a chance to get the <strong>NEW BUNDLE</strong></p>
+                    <p class="small-text">(not the space pack)</p>
+                </div>
+            </div>
+
+            <div class="activities-section">
+                <h3>Event Activities</h3>
+                <ul class="activities-list">
+                    <li>Meet players and post in #monkeys-you-met</li>
+                    <li>Make videos with the TOP 3 players</li>
+                    <li>Spread the word to your fellow players</li>
+                    <li>Meet Broseph in-game</li>
+                </ul>
+            </div>
+
+            <div class="voting-section">
+                <h3>Vote for Event Cosmetic</h3>
+                <p class="voting-description">Help decide which cosmetic could be added to the game! If this cosmetic gets enough votes, it could be added in-game and you can win it during the event.</p>
+                <div class="voting-card">
+                    <img src="assets/chain.png" alt="Cosmetic Option" class="voting-image">
+                    <div class="voting-controls">
+                        <button class="vote-btn" id="voteBtn">
+                            <i class="fi fi-rr-thumbs-up"></i>
+                            Vote for This Cosmetic
+                        </button>
+                        <div class="vote-count">
+                            <span id="voteCount">0</span> votes
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <a href="https://discord.gg/RYV67BC8du" target="_blank" class="discord-btn">
+                <i class="fi fi-brands-discord btn-icon-fi"></i>
+                Join Discord for More Info
+            </a>
+            <p class="server-ping">Server Ping - Spread the word</p>
+        </section>
+
+        <section class="countdown-section">
+            <h3>Time Until Event</h3>
+            <div id="countdown" class="countdown">
+                <div class="time-unit">
+                    <span id="days" class="time-value">00</span>
+                    <span class="time-label">Days</span>
+                </div>
+                <div class="time-unit">
+                    <span id="hours" class="time-value">00</span>
+                    <span class="time-label">Hours</span>
+                </div>
+                <div class="time-unit">
+                    <span id="minutes" class="time-value">00</span>
+                    <span class="time-label">Minutes</span>
+                </div>
+                <div class="time-unit">
+                    <span id="seconds" class="time-value">00</span>
+                    <span class="time-label">Seconds</span>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p class="footer-text">I WAS THERE</p>
+        </footer>
+    </div>
+
+    <script src="script-afterdark.js"></script>
+    <script type="module">
+        // Firebase configuration - YOU NEED TO REPLACE THESE WITH YOUR OWN VALUES
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getDatabase, ref, onValue, runTransaction, get } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+        import { getAuth, signInWithPopup, OAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+
+        // TODO: Replace with your Firebase config from Firebase Console
+        const firebaseConfig = {
+            apiKey: "AIzaSyDkJpFBCdosJ2DMlK9wTGlZZfdxG92r540",
+            authDomain: "darksilenceevents.firebaseapp.com",
+            databaseURL: "https://darksilenceevents-default-rtdb.firebaseio.com",
+            projectId: "darksilenceevents",
+            storageBucket: "darksilenceevents.firebasestorage.app",
+            messagingSenderId: "40378664809",
+            appId: "1:40378664809:web:e406804434ab4adf9e1ff8"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth(app);
+        const provider = new OAuthProvider('oidc.discord');
+
+        // References
+        const votesRef = ref(database, 'cosmetic-votes/count');
+        const voteBtn = document.getElementById('voteBtn');
+        const voteCountSpan = document.getElementById('voteCount');
+
+        let currentUser = null;
+
+        // Listen for vote count changes in real-time
+        onValue(votesRef, (snapshot) => {
+            const count = snapshot.val() || 0;
+            voteCountSpan.textContent = count;
+        });
+
+        // Check authentication state
+        onAuthStateChanged(auth, async (user) => {
+            currentUser = user;
+            
+            if (user) {
+                // User is signed in, check if they've voted
+                const userVoteRef = ref(database, `cosmetic-votes/users/${user.uid}`);
+                const snapshot = await get(userVoteRef);
+                
+                if (snapshot.exists()) {
+                    // User has already voted
+                    voteBtn.classList.add('voted');
+                    voteBtn.innerHTML = '<i class="fi fi-rr-check"></i> You Voted!';
+                    voteBtn.disabled = true;
+                } else {
+                    // User hasn't voted yet
+                    voteBtn.innerHTML = '<i class="fi fi-rr-thumbs-up"></i> Vote for This Cosmetic';
+                    voteBtn.disabled = false;
+                }
+            } else {
+                // User is not signed in
+                voteBtn.innerHTML = '<i class="fi fi-brands-discord"></i> Login with Discord to Vote';
+                voteBtn.classList.remove('voted');
+                voteBtn.disabled = false;
+            }
+        });
+
+        // Handle vote button click
+        voteBtn.addEventListener('click', async () => {
+            if (!currentUser) {
+                // User needs to login
+                try {
+                    await signInWithPopup(auth, provider);
+                } catch (error) {
+                    console.error('Error signing in:', error);
+                    alert('Failed to sign in with Discord. Please try again.');
+                }
+            } else {
+                // User is logged in, submit vote
+                try {
+                    const userVoteRef = ref(database, `cosmetic-votes/users/${currentUser.uid}`);
+                    const snapshot = await get(userVoteRef);
+                    
+                    if (!snapshot.exists()) {
+                        // Increment vote count
+                        await runTransaction(votesRef, (currentValue) => {
+                            return (currentValue || 0) + 1;
+                        });
+                        
+                        // Mark user as voted
+                        await runTransaction(userVoteRef, () => {
+                            return {
+                                voted: true,
+                                timestamp: Date.now(),
+                                discordId: currentUser.uid
+                            };
+                        });
+                        
+                        voteBtn.classList.add('voted');
+                        voteBtn.innerHTML = '<i class="fi fi-rr-check"></i> You Voted!';
+                        voteBtn.disabled = true;
+                    }
+                } catch (error) {
+                    console.error('Error voting:', error);
+                    alert('Failed to submit vote. Please try again.');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

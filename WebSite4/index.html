@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CapuBuddies - Adventure Awaits!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <header>
+        <nav>
+            <div class="logo">CapuBuddies</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#support">Support</a></li>
+                <li><a href="#" class="login-btn" onclick="openLogin(event)">Login</a></li>
+                <li><a href="#download" class="cta-btn">Play Now</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="big-text">CAPUBUDDIES</h1>
+            <h2 class="big-text secondary">SWING INTO ACTION</h2>
+            <button class="play-btn" onclick="scrollToDownload()">
+                <span>PLAY NOW</span>
+            </button>
+        </div>
+        <div class="hero-monkeys">
+            <img src="assets/Monkey2.png" alt="Monkey" class="monkey-img monkey-1">
+            <img src="assets/CapuBuddie.png" alt="CapuBuddie" class="monkey-img monkey-2">
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">CLIMB. SWING. EXPLORE.</h2>
+            <p class="big-desc">Jump into VR and become a monkey! Use your hands to climb, swing through trees, and explore wild worlds with your buddies.</p>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🙌</div>
+                    <h3>PHYSICS-BASED</h3>
+                    <p>Natural movement with your hands</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🌍</div>
+                    <h3>MULTIPLAYER FUN</h3>
+                    <p>Hang out with friends in VR</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">�</div>
+                    <h3>PURE VR</h3>
+                    <p>Made for virtual reality</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="support" class="support">
+        <div class="container">
+            <h2>NEED HELP?</h2>
+            <p>Got questions? We're here to help!</p>
+            <button class="support-btn" onclick="openSupport()">
+                <span>CONTACT SUPPORT</span>
+            </button>
+        </div>
+    </section>
+
+    <section id="download" class="download">
+        <div class="container">
+            <h2 class="section-title">GET THE GAME</h2>
+            <p class="big-desc">Available on all major VR platforms</p>
+            <div class="download-buttons">
+                <button class="download-btn">
+                    <span>META QUEST</span>
+                </button>
+                <button class="download-btn">
+                    <span>STEAM VR</span>
+                </button>
+                <button class="download-btn">
+                    <span>PSVR</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 CapuBuddies. All rights reserved.</p>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLogin()">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <input type="text" placeholder="Username" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" class="modal-btn">Sign In</button>
+            </form>
+            <p class="modal-footer">Don't have an account? <a href="#">Sign up</a></p>
+        </div>
+    </div>
+
+    <!-- Support Modal -->
+    <div id="supportModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSupport()">&times;</span>
+            <h2>Support</h2>
+            <form id="supportForm">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Email Address" required>
+                <textarea placeholder="Describe your issue..." rows="5" required></textarea>
+                <button type="submit" class="modal-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
