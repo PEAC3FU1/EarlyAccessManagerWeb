@@ -561,3 +561,371 @@ footer {
         font-size: 1rem;
     }
 }
+
+.user-profile {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 15px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.user-profile:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.user-avatar-small {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.user-info-small {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.user-name-small {
+    font-size: 0.9rem;
+    color: white;
+    font-weight: 600;
+}
+
+.user-email-small {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.user-profile.logged-in {
+    background: rgba(76, 175, 80, 0.2);
+    border-color: rgba(76, 175, 80, 0.4);
+}
+
+@media (max-width: 768px) {
+    .user-profile {
+        top: 10px;
+        right: 10px;
+        padding: 8px 12px;
+    }
+    
+    .user-avatar-small {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .user-name-small {
+        font-size: 0.8rem;
+    }
+    
+    .user-email-small {
+        font-size: 0.7rem;
+    }
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: rgba(26, 26, 46, 0.95);
+    margin: 10% auto;
+    padding: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close-modal {
+    color: rgba(255, 255, 255, 0.6);
+    float: right;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 20px;
+}
+
+.close-modal:hover {
+    color: white;
+}
+
+.modal-content h2 {
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+.profile-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 12px 15px;
+    color: white;
+    font-size: 1rem;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.form-hint {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+.save-profile-btn {
+    background: rgba(76, 175, 80, 0.3);
+    border: 1px solid rgba(76, 175, 80, 0.5);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Rajdhani', sans-serif;
+    margin-top: 10px;
+}
+
+.save-profile-btn:hover {
+    background: rgba(76, 175, 80, 0.4);
+    border-color: rgba(76, 175, 80, 0.6);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 20% auto;
+        padding: 30px 20px;
+    }
+}
+
+.image-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.image-canvas {
+    width: 100%;
+    height: 400px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    cursor: move;
+}
+
+.image-canvas img {
+    position: absolute;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+}
+
+.crop-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    border: 3px solid white;
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
+}
+
+.editor-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    justify-content: center;
+}
+
+.control-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.zoom-slider {
+    flex: 1;
+    max-width: 200px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+}
+
+.zoom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.zoom-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.reset-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.reset-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.cancel-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Rajdhani', sans-serif;
+    margin-left: auto;
+}
+
+.cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.apply-btn {
+    background: rgba(76, 175, 80, 0.3);
+    border: 1px solid rgba(76, 175, 80, 0.5);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.apply-btn:hover {
+    background: rgba(76, 175, 80, 0.4);
+    border-color: rgba(76, 175, 80, 0.6);
+}
+
+@media (max-width: 768px) {
+    .image-canvas {
+        height: 300px;
+    }
+    
+    .crop-circle {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .editor-controls {
+        flex-wrap: wrap;
+    }
+    
+    .zoom-slider {
+        max-width: 150px;
+    }
+    
+    .modal-buttons {
+        flex-wrap: wrap;
+    }
+    
+    .cancel-btn {
+        margin-left: 0;
+    }
+}

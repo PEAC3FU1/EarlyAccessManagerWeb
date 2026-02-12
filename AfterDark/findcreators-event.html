@@ -4,6 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find The DS Creators - Dark Silence Event</title>
+    <meta name="description" content="Find The DS Creators event - Meet Go4tedVR, Jackallstar, and possibly Nik Daig in Dark Silence! Monthly community event.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Find The DS Creators Event">
+    <meta property="og:description" content="Find The DS Creators event - Meet Go4tedVR, Jackallstar, and possibly Nik Daig in Dark Silence! Monthly community event.">
+    <meta property="og:url" content="https://dark-silence-events.vercel.app/findcreators-event.html">
+    <meta property="og:image" content="https://dark-silence-events.vercel.app/assets/ds_creators_logo.png">
+    <meta property="og:site_name" content="Dark Silence Events">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Find The DS Creators Event">
+    <meta name="twitter:description" content="Find The DS Creators event - Meet Go4tedVR, Jackallstar, and possibly Nik Daig in Dark Silence! Monthly community event.">
+    <meta name="twitter:image" content="https://dark-silence-events.vercel.app/assets/ds_creators_logo.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Find The DS Creators Logo">
+    <meta name="theme-color" content="#1a1a2e">
+    <link rel="icon" type="image/png" href="Dark Silence Player Gizmo.png">
+    <link rel="shortcut icon" type="image/png" href="Dark Silence Player Gizmo.png">
+    <link rel="apple-touch-icon" href="Dark Silence Player Gizmo.png">
     <link rel="stylesheet" href="style-events.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,6 +31,50 @@
 </head>
 <body>
     <div class="stars"></div>
+    
+    <!-- Site Notification -->
+    <div id="siteNotification" style="display: none;">
+        <div style="background: rgba(76, 175, 80, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(76, 175, 80, 0.5); border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 15px;">
+                <div style="flex: 1;">
+                    <div class="notification-title" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">📢 Announcement</div>
+                    <div id="notificationMessage" style="line-height: 1.6;"></div>
+                </div>
+                <button id="closeNotification" style="background: rgba(255,255,255,0.2); border: none; color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">&times;</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="user-profile" id="userProfile">
+        <img id="userAvatar" class="user-avatar-small" src="assets/Dark Silence Player Gizmo.png" alt="Avatar">
+        <div class="user-info-small">
+            <div id="userName" class="user-name-small">Not logged in</div>
+            <div id="userEmail" class="user-email-small"></div>
+        </div>
+    </div>
+    
+    <!-- Profile Settings Modal -->
+    <div id="profileModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; align-items: center; justify-content: center;">
+        <div style="background: rgba(26, 26, 46, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 15px; padding: 30px; max-width: 500px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
+            <h2 style="color: white; font-family: 'Orbitron', sans-serif; margin-bottom: 20px;">Profile Settings</h2>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-bottom: 8px; font-weight: 600;">Username</label>
+                <input type="text" id="usernameInput" placeholder="Enter your username" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; font-size: 1rem; font-family: 'Rajdhani', sans-serif;">
+                <p style="color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 5px;">This will be displayed in the user list</p>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 25px;">
+                <button id="saveUsernameBtn" style="flex: 1; padding: 12px 25px; background: rgba(76, 175, 80, 0.3); border: 1px solid rgba(76, 175, 80, 0.5); border-radius: 8px; color: white; font-size: 1rem; font-weight: 600; cursor: pointer; font-family: 'Rajdhani', sans-serif;">
+                    Save
+                </button>
+                <button id="closeModalBtn" style="flex: 1; padding: 12px 25px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; font-size: 1rem; font-weight: 600; cursor: pointer; font-family: 'Rajdhani', sans-serif;">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <div class="container">
         <a href="index.html" class="back-btn">
             <i class="fi fi-rr-angle-left"></i>
@@ -22,6 +84,7 @@
             <img src="assets/ds_creators_logo.png" alt="Find The DS Creators Logo" class="logo">
             <h1 class="title">FIND THE DS CREATORS</h1>
             <p class="subtitle">Dark Silence Community Event</p>
+            <p style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.5); margin-top: 15px;">Made by PEAC3FU1 <span style="color: #ff0000;">♥</span></p>
         </header>
 
         <section class="event-info">
@@ -128,5 +191,189 @@
     </div>
 
     <script src="script-findcreators.js"></script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+        import { getDatabase, ref, onValue, get, set } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDkJpFBCdosJ2DMlK9wTGlZZfdxG92r540",
+            authDomain: "darksilenceevents.firebaseapp.com",
+            databaseURL: "https://darksilenceevents-default-rtdb.firebaseio.com",
+            projectId: "darksilenceevents"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
+        const userProfile = document.getElementById('userProfile');
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        const userAvatar = document.getElementById('userAvatar');
+
+        // Request notification permission on page load (non-intrusive)
+        if ('Notification' in window && Notification.permission === 'default') {
+            setTimeout(() => {
+                Notification.requestPermission();
+            }, 5000);
+        }
+
+        // Listen for push notification triggers
+        const pushTriggerRef = ref(database, 'push-trigger');
+        onValue(pushTriggerRef, (snapshot) => {
+            const pushData = snapshot.val();
+            if (pushData && pushData.timestamp) {
+                const pushId = 'push_' + pushData.timestamp;
+                const hasSeenPush = localStorage.getItem(pushId);
+                
+                if (!hasSeenPush && 'Notification' in window && Notification.permission === 'granted') {
+                    const notification = new Notification(pushData.title || 'Dark Silence Events', {
+                        body: pushData.message,
+                        icon: '/Dark Silence Player Gizmo.png',
+                        badge: '/Dark Silence Player Gizmo.png',
+                        tag: 'dark-silence-event',
+                        requireInteraction: false,
+                        vibrate: [200, 100, 200]
+                    });
+                    
+                    localStorage.setItem(pushId, 'true');
+                    
+                    notification.onclose = () => {
+                        localStorage.setItem(pushId, 'closed');
+                    };
+                }
+            }
+        });
+
+        // Check for site notification
+        const notificationRef = ref(database, 'site-notification');
+        onValue(notificationRef, (snapshot) => {
+            const notification = snapshot.val();
+            if (notification && notification.active) {
+                const notificationId = 'notification_' + notification.timestamp;
+                const hasSeenNotification = localStorage.getItem(notificationId);
+                
+                if (!hasSeenNotification) {
+                    const notifEl = document.getElementById('siteNotification');
+                    const position = notification.position || 'top-right';
+                    
+                    notifEl.style.cssText = `display: block; position: fixed; z-index: 9999; max-width: 400px; width: 90%;`;
+                    if (position === 'top') {
+                        notifEl.style.top = '80px';
+                        notifEl.style.left = '50%';
+                        notifEl.style.transform = 'translateX(-50%)';
+                    } else if (position === 'top-right') {
+                        notifEl.style.top = '80px';
+                        notifEl.style.right = '20px';
+                        notifEl.style.left = 'auto';
+                        notifEl.style.transform = 'none';
+                    } else if (position === 'bottom-right') {
+                        notifEl.style.bottom = '20px';
+                        notifEl.style.right = '20px';
+                        notifEl.style.top = 'auto';
+                        notifEl.style.left = 'auto';
+                        notifEl.style.transform = 'none';
+                    } else if (position === 'bottom') {
+                        notifEl.style.bottom = '20px';
+                        notifEl.style.left = '50%';
+                        notifEl.style.top = 'auto';
+                        notifEl.style.transform = 'translateX(-50%)';
+                    }
+                    
+                    const notifBox = notifEl.querySelector('div');
+                    notifBox.style.background = notification.bgColor || 'rgba(76, 175, 80, 0.95)';
+                    notifBox.style.color = notification.textColor || 'white';
+                    notifBox.style.fontSize = notification.fontSize || '1rem';
+                    
+                    const title = notification.title || 'Announcement';
+                    const icon = notification.icon || '📢';
+                    const titleElement = notifEl.querySelector('.notification-title');
+                    if (titleElement) {
+                        titleElement.innerHTML = `${icon} ${title}`;
+                    }
+                    const messageElement = document.getElementById('notificationMessage');
+                    if (messageElement) {
+                        messageElement.textContent = notification.message;
+                    }
+                    
+                    document.getElementById('closeNotification').addEventListener('click', () => {
+                        notifEl.style.display = 'none';
+                        localStorage.setItem(notificationId, 'true');
+                    }, { once: true });
+                }
+            }
+        });
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // Load user profile data
+                const userProfileRef = ref(database, `user-profiles/${user.uid}`);
+                const profileSnapshot = await get(userProfileRef);
+                const profileData = profileSnapshot.val();
+                const username = profileData?.username || user.displayName || user.email?.split('@')[0] || 'User';
+                
+                userProfile.classList.add('logged-in');
+                userName.textContent = username;
+                userEmail.textContent = user.email || '';
+                userAvatar.src = user.photoURL || 'assets/Dark Silence Player Gizmo.png';
+                userAvatar.onerror = () => { userAvatar.src = 'assets/Dark Silence Player Gizmo.png'; };
+                
+                // Add click handler to open profile settings
+                userProfile.style.cursor = 'pointer';
+                userProfile.onclick = () => {
+                    document.getElementById('profileModal').style.display = 'flex';
+                    document.getElementById('usernameInput').value = profileData?.username || '';
+                };
+            } else {
+                userProfile.classList.remove('logged-in');
+                userName.textContent = 'Not logged in';
+                userEmail.textContent = '';
+                userAvatar.src = 'assets/Dark Silence Player Gizmo.png';
+                userProfile.style.cursor = 'default';
+                userProfile.onclick = null;
+            }
+        });
+        
+        // Profile modal handlers
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            document.getElementById('profileModal').style.display = 'none';
+        });
+        
+        document.getElementById('saveUsernameBtn').addEventListener('click', async () => {
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            const username = document.getElementById('usernameInput').value.trim();
+            if (!username) {
+                alert('Please enter a username');
+                return;
+            }
+            
+            try {
+                const userProfileRef = ref(database, `user-profiles/${user.uid}`);
+                await set(userProfileRef, {
+                    username: username,
+                    email: user.email,
+                    photoURL: user.photoURL,
+                    updatedAt: Date.now()
+                });
+                
+                userName.textContent = username;
+                document.getElementById('profileModal').style.display = 'none';
+                alert('Username updated successfully!');
+            } catch (error) {
+                console.error('Error updating username:', error);
+                alert('Failed to update username: ' + error.message);
+            }
+        });
+        
+        // Close modal on background click
+        document.getElementById('profileModal').addEventListener('click', (e) => {
+            if (e.target.id === 'profileModal') {
+                document.getElementById('profileModal').style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>

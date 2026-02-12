@@ -4,7 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>After Dark - Dark Silence Event</title>
-    <link rel="stylesheet" href="style-events.css">
+    <meta name="description" content="Join After Dark Month 2 on February 12th, 2026 at 5-6 PM EST. Meet Broseph in-game and compete for the NEW BUNDLE!">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="After Dark - Month 2 Event">
+    <meta property="og:description" content="Join After Dark Month 2 on February 12th, 2026 at 5-6 PM EST. Meet Broseph in-game and compete for the NEW BUNDLE!">
+    <meta property="og:url" content="https://dark-silence-events.vercel.app/afterdark-event.html">
+    <meta property="og:image" content="https://dark-silence-events.vercel.app/assets/AfterDarkPreview.png?v=2">
+    <meta property="og:site_name" content="Dark Silence Events">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="After Dark - Month 2 Event">
+    <meta name="twitter:description" content="Join After Dark Month 2 on February 12th, 2026 at 5-6 PM EST. Meet Broseph in-game and compete for the NEW BUNDLE!">
+    <meta name="twitter:image" content="https://dark-silence-events.vercel.app/assets/AfterDarkPreview.png?v=2">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="After Dark Event Logo">
+    <meta name="theme-color" content="#1a1a2e">
+    <link rel="icon" type="image/png" href="Dark Silence Player Gizmo.png">
+    <link rel="shortcut icon" type="image/png" href="Dark Silence Player Gizmo.png">
+    <link rel="apple-touch-icon" href="Dark Silence Player Gizmo.png">
+    <link rel="stylesheet" href="style-events.css?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
@@ -13,6 +31,28 @@
 </head>
 <body>
     <div class="stars"></div>
+    
+    <!-- Site Notification -->
+    <div id="siteNotification" style="display: none;">
+        <div style="background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(46, 46, 46, 0.5); border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 15px;">
+                <div style="flex: 1;">
+                    <div class="notification-title" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">📢 Announcement</div>
+                    <div id="notificationMessage" style="line-height: 1.6;"></div>
+                </div>
+                <button id="closeNotification" style="background: rgba(255,255,255,0.2); border: none; color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">&times;</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="user-profile" id="userProfile">
+        <img id="userAvatar" class="user-avatar-small" src="assets/Dark Silence Player Gizmo.png" alt="Avatar">
+        <div class="user-info-small">
+            <div id="userName" class="user-name-small">Not logged in</div>
+            <div id="userEmail" class="user-email-small"></div>
+        </div>
+    </div>
+    
     <div class="container">
         <a href="index.html" class="back-btn">
             <i class="fi fi-rr-angle-left"></i>
@@ -22,6 +62,7 @@
             <img src="assets/AfterDark.png" alt="After Dark Logo" class="logo">
             <h1 class="title">AFTER DARK</h1>
             <p class="subtitle">Dark Silence Community Event</p>
+            <p style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.5); margin-top: 15px;">Made by PEAC3FU1 <span style="color: #ff0000;">♥</span></p>
         </header>
 
         <section class="event-info">
@@ -83,14 +124,14 @@
                 <h3>Vote for Event Cosmetic</h3>
                 <p class="voting-description">Help decide which cosmetic could be added to the game! If this cosmetic gets enough votes, it could be added in-game and you can win it during the event.</p>
                 <div class="voting-card">
-                    <img src="assets/chain.png" alt="Cosmetic Option" class="voting-image">
+                    <img src="assets/AfterDarkPreview.png" alt="Cosmetic Option" class="voting-image">
                     <div class="voting-controls">
                         <button class="vote-btn" id="voteBtn">
                             <i class="fi fi-rr-thumbs-up"></i>
                             Vote for This Cosmetic
                         </button>
                         <div class="vote-count">
-                            <span id="voteCount">0</span> votes
+                            <span id="voteCount">0</span> / 15 votes
                         </div>
                     </div>
                 </div>
@@ -134,12 +175,12 @@
 
     <script src="script-afterdark.js"></script>
     <script type="module">
-        // Firebase configuration - YOU NEED TO REPLACE THESE WITH YOUR OWN VALUES
+        // Firebase configuration
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-        import { getDatabase, ref, onValue, runTransaction, get } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
-        import { getAuth, signInWithPopup, OAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+        import { getDatabase, ref, onValue, runTransaction, get, update } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, updateProfile } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js';
 
-        // TODO: Replace with your Firebase config from Firebase Console
         const firebaseConfig = {
             apiKey: "AIzaSyDkJpFBCdosJ2DMlK9wTGlZZfdxG92r540",
             authDomain: "darksilenceevents.firebaseapp.com",
@@ -154,14 +195,112 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
         const auth = getAuth(app);
-        const provider = new OAuthProvider('oidc.discord');
+        const storage = getStorage(app);
+        const provider = new GoogleAuthProvider();
 
         // References
         const votesRef = ref(database, 'cosmetic-votes/count');
         const voteBtn = document.getElementById('voteBtn');
         const voteCountSpan = document.getElementById('voteCount');
+        const userProfile = document.getElementById('userProfile');
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        const userAvatar = document.getElementById('userAvatar');
 
         let currentUser = null;
+
+        // Request notification permission on page load (non-intrusive)
+        if ('Notification' in window && Notification.permission === 'default') {
+            setTimeout(() => {
+                Notification.requestPermission();
+            }, 5000); // Wait 5 seconds, no confirm dialog
+        }
+
+        // Listen for push notification triggers
+        const pushTriggerRef = ref(database, 'push-trigger');
+        onValue(pushTriggerRef, (snapshot) => {
+            const pushData = snapshot.val();
+            if (pushData && pushData.timestamp) {
+                const pushId = 'push_' + pushData.timestamp;
+                const hasSeenPush = localStorage.getItem(pushId);
+                
+                if (!hasSeenPush && 'Notification' in window && Notification.permission === 'granted') {
+                    const notification = new Notification(pushData.title || 'Dark Silence Events', {
+                        body: pushData.message,
+                        icon: '/Dark Silence Player Gizmo.png',
+                        badge: '/Dark Silence Player Gizmo.png',
+                        tag: 'dark-silence-event',
+                        requireInteraction: false,
+                        vibrate: [200, 100, 200]
+                    });
+                    
+                    localStorage.setItem(pushId, 'true');
+                    
+                    notification.onclose = () => {
+                        localStorage.setItem(pushId, 'closed');
+                    };
+                }
+            }
+        });
+
+        // Check for site notification
+        const notificationRef = ref(database, 'site-notification');
+        onValue(notificationRef, (snapshot) => {
+            const notification = snapshot.val();
+            if (notification && notification.active) {
+                const notificationId = 'notification_' + notification.timestamp;
+                const hasSeenNotification = localStorage.getItem(notificationId);
+                
+                if (!hasSeenNotification) {
+                    const notifEl = document.getElementById('siteNotification');
+                    const position = notification.position || 'top-right';
+                    
+                    notifEl.style.cssText = `display: block; position: fixed; z-index: 9999; max-width: 400px; width: 90%;`;
+                    if (position === 'top') {
+                        notifEl.style.top = '80px';
+                        notifEl.style.left = '50%';
+                        notifEl.style.transform = 'translateX(-50%)';
+                    } else if (position === 'top-right') {
+                        notifEl.style.top = '80px';
+                        notifEl.style.right = '20px';
+                        notifEl.style.left = 'auto';
+                        notifEl.style.transform = 'none';
+                    } else if (position === 'bottom-right') {
+                        notifEl.style.bottom = '20px';
+                        notifEl.style.right = '20px';
+                        notifEl.style.top = 'auto';
+                        notifEl.style.left = 'auto';
+                        notifEl.style.transform = 'none';
+                    } else if (position === 'bottom') {
+                        notifEl.style.bottom = '20px';
+                        notifEl.style.left = '50%';
+                        notifEl.style.top = 'auto';
+                        notifEl.style.transform = 'translateX(-50%)';
+                    }
+                    
+                    const notifBox = notifEl.querySelector('div');
+                    notifBox.style.background = notification.bgColor || 'rgba(76, 175, 80, 0.95)';
+                    notifBox.style.color = notification.textColor || 'white';
+                    notifBox.style.fontSize = notification.fontSize || '1rem';
+                    
+                    const title = notification.title || 'Announcement';
+                    const icon = notification.icon || '📢';
+                    const titleElement = notifEl.querySelector('.notification-title');
+                    if (titleElement) {
+                        titleElement.innerHTML = `${icon} ${title}`;
+                    }
+                    const messageElement = document.getElementById('notificationMessage');
+                    if (messageElement) {
+                        messageElement.textContent = notification.message;
+                    }
+                    
+                    document.getElementById('closeNotification').addEventListener('click', () => {
+                        notifEl.style.display = 'none';
+                        localStorage.setItem(notificationId, 'true');
+                    }, { once: true });
+                }
+            }
+        });
 
         // Listen for vote count changes in real-time
         onValue(votesRef, (snapshot) => {
@@ -174,6 +313,19 @@
             currentUser = user;
             
             if (user) {
+                // Load user profile data
+                const userProfileRef = ref(database, `user-profiles/${user.uid}`);
+                const profileSnapshot = await get(userProfileRef);
+                const profileData = profileSnapshot.val();
+                const username = profileData?.username || user.displayName || user.email?.split('@')[0] || 'User';
+                
+                // Update user profile display
+                userProfile.classList.add('logged-in');
+                userName.textContent = username;
+                userEmail.textContent = user.email || '';
+                userAvatar.src = user.photoURL || 'Dark Silence Player Gizmo.png';
+                userAvatar.onerror = () => { userAvatar.src = 'Dark Silence Player Gizmo.png'; };
+                
                 // User is signed in, check if they've voted
                 const userVoteRef = ref(database, `cosmetic-votes/users/${user.uid}`);
                 const snapshot = await get(userVoteRef);
@@ -189,8 +341,14 @@
                     voteBtn.disabled = false;
                 }
             } else {
+                // Update user profile display
+                userProfile.classList.remove('logged-in');
+                userName.textContent = 'Not logged in';
+                userEmail.textContent = '';
+                userAvatar.src = 'Dark Silence Player Gizmo.png';
+                
                 // User is not signed in
-                voteBtn.innerHTML = '<i class="fi fi-brands-discord"></i> Login with Discord to Vote';
+                voteBtn.innerHTML = '<i class="fi fi-brands-google"></i> Login with Google to Vote';
                 voteBtn.classList.remove('voted');
                 voteBtn.disabled = false;
             }
@@ -204,7 +362,9 @@
                     await signInWithPopup(auth, provider);
                 } catch (error) {
                     console.error('Error signing in:', error);
-                    alert('Failed to sign in with Discord. Please try again.');
+                    if (error.code !== 'auth/popup-closed-by-user') {
+                        alert('Failed to sign in with Google. Please try again.');
+                    }
                 }
             } else {
                 // User is logged in, submit vote
@@ -213,17 +373,25 @@
                     const snapshot = await get(userVoteRef);
                     
                     if (!snapshot.exists()) {
+                        // Get user profile data
+                        const userProfileRef = ref(database, `user-profiles/${currentUser.uid}`);
+                        const profileSnapshot = await get(userProfileRef);
+                        const profileData = profileSnapshot.val();
+                        
                         // Increment vote count
                         await runTransaction(votesRef, (currentValue) => {
                             return (currentValue || 0) + 1;
                         });
                         
-                        // Mark user as voted
+                        // Mark user as voted with username
                         await runTransaction(userVoteRef, () => {
                             return {
                                 voted: true,
                                 timestamp: Date.now(),
-                                discordId: currentUser.uid
+                                email: currentUser.email,
+                                displayName: currentUser.displayName || null,
+                                username: profileData?.username || null,
+                                photoURL: currentUser.photoURL || null
                             };
                         });
                         

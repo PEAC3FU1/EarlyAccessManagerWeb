@@ -661,3 +661,75 @@ footer {
         font-size: 1.2rem;
     }
 }
+
+.user-profile {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 15px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.user-profile:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.user-avatar-small {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.user-info-small {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.user-name-small {
+    font-size: 0.9rem;
+    color: white;
+    font-weight: 600;
+}
+
+.user-email-small {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.user-profile.logged-in {
+    background: rgba(76, 175, 80, 0.2);
+    border-color: rgba(76, 175, 80, 0.4);
+}
+
+@media (max-width: 768px) {
+    .user-profile {
+        top: 10px;
+        right: 10px;
+        padding: 8px 12px;
+    }
+    
+    .user-avatar-small {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .user-name-small {
+        font-size: 0.8rem;
+    }
+    
+    .user-email-small {
+        font-size: 0.7rem;
+    }
+}

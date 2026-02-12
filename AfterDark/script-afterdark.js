@@ -1,6 +1,7 @@
 // Countdown Timer for After Dark
 function updateCountdown() {
-    const eventDate = new Date('February 12, 2026 17:00:00 EST').getTime();
+    // February 12, 2026 at 5:00 PM EST (UTC-5)
+    const eventDate = new Date('2026-02-12T17:00:00-05:00').getTime();
     const now = new Date().getTime();
     const distance = eventDate - now;
 
