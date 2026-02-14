@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Club - Dark Silence</title>
+    <meta name="description" content="Meet the talented content creators behind Dark Silence. Join our creator community and discover amazing content.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Creator Club - Dark Silence">
+    <meta property="og:description" content="Meet the voices behind Dark Silence. Discover content creators, watch their latest videos, and join the community.">
+    <meta property="og:url" content="https://dark-silence-web.vercel.app/creator-club.html">
+    <meta property="og:image" content="https://dark-silence-web.vercel.app/assets/DarkSilence.png">
+    <meta name="theme-color" content="#1a1a2e">
+    <link rel="icon" type="image/png" href="Dark Silence Player Gizmo.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css'>
+    <style>
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+            z-index: 1000;
+        }
+        
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .navbar-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 0.1em;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: -10px;
+        }
+        
+        .navbar-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .navbar-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .navbar-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+        
+        .navbar-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .navbar-link.active {
+            color: white;
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+        }
+        
+        .creator-club-link.active {
+            background: linear-gradient(90deg, 
+                #ff0000 0%, 
+                #ff7f00 16.66%, 
+                #ffff00 33.33%, 
+                #00ff00 50%, 
+                #0000ff 66.66%, 
+                #4b0082 83.33%, 
+                #9400d3 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .creator-club-link {
+            background: linear-gradient(90deg, 
+                #ff0000 0%, 
+                #ff7f00 16.66%, 
+                #ffff00 33.33%, 
+                #00ff00 50%, 
+                #0000ff 66.66%, 
+                #4b0082 83.33%, 
+                #9400d3 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            animation: rainbow-shift 3s linear infinite;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .creator-club-link:hover {
+            background: linear-gradient(90deg, 
+                #ff0000 0%, 
+                #ff7f00 16.66%, 
+                #ffff00 33.33%, 
+                #00ff00 50%, 
+                #0000ff 66.66%, 
+                #4b0082 83.33%, 
+                #9400d3 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        @keyframes rainbow-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 200% 50%;
+            }
+        }
+        
+        .container {
+            padding-top: 80px;
+        }
+        
+        .hero-section {
+            text-align: center;
+            padding: 80px 20px 40px;
+            background: rgba(255, 255, 255, 0.02);
+            position: relative;
+        }
+        
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 0;
+            letter-spacing: 0.1em;
+        }
+        
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 0.1em;
+        }
+        
+        .section-description {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 50px;
+            line-height: 1.6;
+        }
+        
+        .ranks-section {
+            padding: 60px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .ranks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .rank-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .rank-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--rank-color), transparent);
+        }
+        
+        .rank-bronze {
+            --rank-color: #cd7f32;
+        }
+        
+        .rank-silver {
+            --rank-color: #c0c0c0;
+        }
+        
+        .rank-gold {
+            --rank-color: #ffd700;
+        }
+        
+        .rank-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--rank-color);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .rank-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px var(--rank-color));
+        }
+        
+        .rank-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .rank-requirement {
+            color: var(--rank-color);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .rank-perks,
+        .rank-requirements {
+            text-align: left;
+            margin-bottom: 25px;
+        }
+        
+        .rank-perks h4,
+        .rank-requirements h4 {
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .rank-perks ul,
+        .rank-requirements ul {
+            list-style: none;
+            padding: 0;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 2;
+        }
+        
+        .rank-perks li {
+            padding-left: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .rank-requirements li {
+            padding-left: 10px;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: white;
+            text-align: center;
+            margin-bottom: 50px;
+            letter-spacing: 0.1em;
+        }
+        
+        .stats-section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: rgba(76, 175, 80, 1);
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .creators-section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .live-section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 0, 0, 0.05);
+            border-radius: 20px;
+        }
+        
+        .live-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .live-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 0, 0, 0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .live-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 0, 0, 0.8);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+        }
+        
+        .live-embed {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border: none;
+        }
+        
+        .live-info {
+            padding: 20px;
+        }
+        
+        .live-creator {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .live-badge {
+            background: #ff0000;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+        
+        .live-title {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
+        .creators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .creator-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .creator-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .creator-card:hover::before {
+            left: 100%;
+        }
+        
+        .creator-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-10px);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .creator-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        
+        .creator-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .creator-role {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .creator-bio {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .creator-badges {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .badge {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.4);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: rgba(76, 175, 80, 1);
+            font-weight: 600;
+        }
+        
+        .creator-socials {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .social-link {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            color: white;
+            transform: scale(1.2);
+        }
+        
+        .creator-btn {
+            background: rgba(76, 175, 80, 0.3);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .creator-btn:hover {
+            background: rgba(76, 175, 80, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .join-section {
+            padding: 80px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+        }
+        
+        .join-content {
+            margin-bottom: 30px;
+        }
+        
+        .join-list {
+            text-align: left;
+            max-width: 600px;
+            margin: 30px auto;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 2;
+        }
+        
+        .join-list li {
+            margin-bottom: 15px;
+            padding-left: 10px;
+        }
+        
+        .join-btn {
+            background: rgba(76, 175, 80, 0.3);
+            border: 2px solid rgba(76, 175, 80, 0.5);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .join-btn:hover {
+            background: rgba(76, 175, 80, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 10px 0;
+            }
+            
+            .navbar-content {
+                padding: 0 10px;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .navbar-logo {
+                font-size: 1.2rem;
+                margin-left: 0;
+                gap: 8px;
+            }
+            
+            .navbar-logo img {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .navbar-links {
+                gap: 8px;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .navbar-link {
+                font-size: 0.8rem;
+                padding: 6px 10px;
+            }
+            
+            .container {
+                padding-top: 100px;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .creators-grid {
+                grid-template-columns: 1fr;
+            }
+            .live-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <!-- Error Overlay -->
+    <div id="errorOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0a0a0f; z-index: 10000; align-items: center; justify-content: center; flex-direction: column;">
+        <i class="fi fi-rr-exclamation" style="font-size: 6rem; color: #ff4444; margin-bottom: 30px;"></i>
+        <h2 style="color: white; font-family: 'Orbitron', sans-serif; font-size: 2.5rem; margin-bottom: 15px;">Oops!</h2>
+        <p style="color: rgba(255,255,255,0.7); font-size: 1.2rem; margin-bottom: 30px;">Looks like there's a problem</p>
+        <p style="color: rgba(255,255,255,0.5); font-size: 1rem; margin-bottom: 40px;">This page is currently unavailable</p>
+        <a href="index.html" style="background: rgba(76, 175, 80, 0.3); border: 2px solid rgba(76, 175, 80, 0.5); color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">Go Back Home</a>
+    </div>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="index.html" class="navbar-logo">
+                <img src="Dark Silence Player Gizmo.png" alt="Player Gizmo">
+                DARK SILENCE
+            </a>
+            <div class="navbar-links">
+                <a href="index.html" class="navbar-link">Home</a>
+                <a href="events.html" class="navbar-link">Events</a>
+                <a href="#news" class="navbar-link">News</a>
+                <a href="#community" class="navbar-link">Community</a>
+                <a href="#about" class="navbar-link">About</a>
+                <a href="creator-club.html" class="navbar-link creator-club-link active">Creator Club</a>
+                <a href="admin-users.html" class="navbar-link" id="adminNavLink" style="display: none;">Admin</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- User Profile -->
+    <div class="user-profile" id="userProfile">
+        <img id="userAvatar" class="user-avatar-small" src="Dark Silence Player Gizmo.png" alt="Avatar">
+        <div class="user-info-small">
+            <div id="userName" class="user-name-small">Not logged in</div>
+            <div id="userEmail" class="user-email-small"></div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero-section" id="heroSection" style="display: none;">
+            <h1 class="hero-title">DARK SILENCE CREATOR CLUB</h1>
+        </section>
+        
+        <!-- Live Now Section -->
+        <section class="live-section" id="liveSection" style="display: none;">
+            <h2 class="section-title">🔴 Live Now</h2>
+            <div class="live-grid" id="liveGrid"></div>
+            <p id="noLiveStreams" style="text-align: center; color: rgba(255,255,255,0.5); padding: 40px;">No creators are currently live</p>
+        </section>
+        
+        <!-- Ranks Section -->
+        <section class="ranks-section" id="ranksSection" style="display: none;">
+            <h2 class="section-title">Creator Ranks</h2>
+            <p class="section-description">Progress through the ranks and unlock exclusive perks as you grow with the Dark Silence community</p>
+            
+            <div class="ranks-grid">
+                <!-- Rank 1: Content Creator -->
+                <div class="rank-card rank-bronze">
+                    <div class="rank-icon">🎬</div>
+                    <h3 class="rank-name">Content Creator</h3>
+                    <p class="rank-requirement">Entry Level</p>
+                    <div class="rank-perks">
+                        <h4>Perks:</h4>
+                        <ul>
+                            <li>✓ Official Creator Role in Discord</li>
+                            <li>✓ Access to Creator-Only Channels</li>
+                            <li>✓ Listed on Creator Club Page</li>
+                            <li>✓ Early Event Announcements</li>
+                            <li>✓ Creator Support from Team</li>
+                        </ul>
+                    </div>
+                    <div class="rank-requirements">
+                        <h4>Requirements:</h4>
+                        <ul>
+                            <li>• Active Dark Silence content</li>
+                            <li>• 100+ subscribers/followers</li>
+                            <li>• Regular uploads (2+ per month)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Rank 2: Content Creator Badge -->
+                <div class="rank-card rank-silver">
+                    <div class="rank-icon">⭐</div>
+                    <h3 class="rank-name">Content Creator Badge</h3>
+                    <p class="rank-requirement">Verified Creator</p>
+                    <div class="rank-perks">
+                        <h4>Perks:</h4>
+                        <ul>
+                            <li>✓ All Content Creator Perks</li>
+                            <li>✓ Verified Badge on Profile</li>
+                            <li>✓ Featured in Creator Spotlights</li>
+                            <li>✓ Priority Event Participation</li>
+                            <li>✓ Custom Creator Code</li>
+                            <li>✓ Exclusive In-Game Cosmetic</li>
+                            <li>✓ Collaboration Opportunities</li>
+                        </ul>
+                    </div>
+                    <div class="rank-requirements">
+                        <h4>Requirements:</h4>
+                        <ul>
+                            <li>• 500+ subscribers/followers</li>
+                            <li>• 3+ months active content</li>
+                            <li>• Community engagement</li>
+                            <li>• Quality content standards</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Rank 3: Content Creator Hat -->
+                <div class="rank-card rank-gold">
+                    <div class="rank-icon">👑</div>
+                    <h3 class="rank-name">Content Creator Hat</h3>
+                    <p class="rank-requirement">Elite Creator</p>
+                    <div class="rank-perks">
+                        <h4>Perks:</h4>
+                        <ul>
+                            <li>✓ All Previous Perks</li>
+                            <li>✓ Exclusive Creator Hat In-Game</li>
+                            <li>✓ Featured on Homepage</li>
+                            <li>✓ Host Official Events</li>
+                            <li>✓ Direct Dev Communication</li>
+                            <li>✓ Revenue Share Program</li>
+                            <li>✓ Custom Cosmetic Design Input</li>
+                            <li>✓ VIP Event Access</li>
+                            <li>✓ Merchandise Opportunities</li>
+                        </ul>
+                    </div>
+                    <div class="rank-requirements">
+                        <h4>Requirements:</h4>
+                        <ul>
+                            <li>• 2,000+ subscribers/followers</li>
+                            <li>• 6+ months active content</li>
+                            <li>• Strong community presence</li>
+                            <li>• Consistent quality content</li>
+                            <li>• Positive community impact</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Creators Section -->
+        <section class="creators-section" id="creatorsSection" style="display: none;">
+            <h2 class="section-title">Our Creators</h2>
+            <div class="creators-grid">
+                <!-- Creator Card 1 -->
+                <div class="creator-card">
+                    <div class="creator-avatar">
+                        <i class="fi fi-rr-user"></i>
+                    </div>
+                    <h3 class="creator-name">Broseph</h3>
+                    <p class="creator-role">Content Creator</p>
+                    <p class="creator-bio">Leading the Dark Silence community with epic events and unforgettable experiences. Join me for After Dark and more!</p>
+                    <div class="creator-badges">
+                        <span class="badge">Event Host</span>
+                        <span class="badge">Streamer</span>
+                    </div>
+                    <div class="creator-socials">
+                        <a href="https://www.youtube.com/@Broseph-reel" target="_blank" class="social-link"><i class="fi fi-brands-youtube"></i></a>
+                        <a href="https://discord.gg/wh6YtSqgy8" target="_blank" class="social-link"><i class="fi fi-brands-discord"></i></a>
+                    </div>
+                    <a href="https://www.youtube.com/@Broseph-reel" target="_blank" class="creator-btn">Watch Now</a>
+                </div>
+                
+                <!-- Creator Card 2 -->
+                <div class="creator-card">
+                    <div class="creator-avatar">
+                        <i class="fi fi-rr-user"></i>
+                    </div>
+                    <h3 class="creator-name">Pantherz_GTAG</h3>
+                    <p class="creator-role">Content Creator</p>
+                    <p class="creator-bio">Creating amazing content and organizing community events. Let's find those DS creators together!</p>
+                    <div class="creator-badges">
+                        <span class="badge">Event Organizer</span>
+                        <span class="badge">Content Creator</span>
+                    </div>
+                    <div class="creator-socials">
+                        <a href="https://www.youtube.com/@Pantherz_gtag" target="_blank" class="social-link"><i class="fi fi-brands-youtube"></i></a>
+                        <a href="https://discord.gg/wh6YtSqgy8" target="_blank" class="social-link"><i class="fi fi-brands-discord"></i></a>
+                    </div>
+                    <a href="https://www.youtube.com/@Pantherz_gtag" target="_blank" class="creator-btn">Watch Now</a>
+                </div>
+                
+                <!-- Creator Card 3 -->
+                <div class="creator-card">
+                    <div class="creator-avatar">
+                        <i class="fi fi-rr-user"></i>
+                    </div>
+                    <h3 class="creator-name">Go4tedVR</h3>
+                    <p class="creator-role">Content Creator</p>
+                    <p class="creator-bio">Bringing you the best Dark Silence gameplay, tips, and entertainment. Subscribe for daily uploads!</p>
+                    <div class="creator-badges">
+                        <span class="badge">Content Creator</span>
+                        <span class="badge">Gameplay</span>
+                    </div>
+                    <div class="creator-socials">
+                        <a href="https://www.youtube.com/@goatedbross" target="_blank" class="social-link"><i class="fi fi-brands-youtube"></i></a>
+                        <a href="https://discord.gg/wh6YtSqgy8" target="_blank" class="social-link"><i class="fi fi-brands-discord"></i></a>
+                    </div>
+                    <a href="https://www.youtube.com/@goatedbross" target="_blank" class="creator-btn">Watch Now</a>
+                </div>
+                
+                <!-- Creator Card 4 -->
+                <div class="creator-card">
+                    <div class="creator-avatar">
+                        <i class="fi fi-rr-user"></i>
+                    </div>
+                    <h3 class="creator-name">Jackallstar</h3>
+                    <p class="creator-role">Content Creator</p>
+                    <p class="creator-bio">Your go-to source for Dark Silence highlights, funny moments, and community content!</p>
+                    <div class="creator-badges">
+                        <span class="badge">Content Creator</span>
+                        <span class="badge">Highlights</span>
+                    </div>
+                    <div class="creator-socials">
+                        <a href="https://www.youtube.com/@JackallstarVR" target="_blank" class="social-link"><i class="fi fi-brands-youtube"></i></a>
+                        <a href="https://discord.gg/wh6YtSqgy8" target="_blank" class="social-link"><i class="fi fi-brands-discord"></i></a>
+                    </div>
+                    <a href="https://www.youtube.com/@JackallstarVR" target="_blank" class="creator-btn">Watch Now</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Join Section -->
+        <section class="join-section" id="joinSection" style="display: none;">
+            <h2 class="section-title">Join the Creator Club</h2>
+            <div class="join-content">
+                <p style="color: rgba(255, 255, 255, 0.7); font-size: 1.1rem; line-height: 1.8;">
+                    Are you a content creator passionate about Dark Silence? Join our exclusive Creator Club and become part of an amazing community!
+                </p>
+                
+                <ul class="join-list">
+                    <li>✨ Get featured on our official website</li>
+                    <li>🎮 Early access to new content and updates</li>
+                    <li>🤝 Collaborate with other creators</li>
+                    <li>📢 Promotion across our social channels</li>
+                    <li>🎁 Exclusive creator perks and rewards</li>
+                    <li>💬 Direct communication with the dev team</li>
+                </ul>
+                
+                <button class="join-btn" onclick="window.location.href='https://discord.gg/wh6YtSqgy8'">Apply Now</button>
+            </div>
+        </section>
+        
+        <footer style="text-align: center; padding: 50px 20px; margin-top: 50px;">
+            <p style="color: rgba(255, 255, 255, 0.5); font-size: 0.9rem;">Made by PEAC3FU1 <span style="color: #ff0000;">♥</span></p>
+            <div style="margin-top: 20px;">
+                <a href="https://discord.gg/wh6YtSqgy8" target="_blank" style="color: rgba(255, 255, 255, 0.5); font-size: 1.5rem; margin: 0 10px;">
+                    <i class="fi fi-brands-discord"></i>
+                </a>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+        import { getDatabase, ref, get, onValue } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDkJpFBCdosJ2DMlK9wTGlZZfdxG92r540",
+            authDomain: "darksilenceevents.firebaseapp.com",
+            databaseURL: "https://darksilenceevents-default-rtdb.firebaseio.com",
+            projectId: "darksilenceevents"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
+        const userProfile = document.getElementById('userProfile');
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        const userAvatar = document.getElementById('userAvatar');
+        const adminNavLink = document.getElementById('adminNavLink');
+        const errorOverlay = document.getElementById('errorOverlay');
+        const heroSection = document.getElementById('heroSection');
+        const liveSection = document.getElementById('liveSection');
+        const ranksSection = document.getElementById('ranksSection');
+        const creatorsSection = document.getElementById('creatorsSection');
+        const joinSection = document.getElementById('joinSection');
+        const liveGrid = document.getElementById('liveGrid');
+        const noLiveStreams = document.getElementById('noLiveStreams');
+
+        // Load live streams
+        const liveStreamsRef = ref(database, 'live-streams');
+        onValue(liveStreamsRef, (snapshot) => {
+            const streams = snapshot.val();
+            
+            if (streams && Object.keys(streams).length > 0) {
+                const streamsList = Object.entries(streams).map(([id, data]) => ({ id, ...data }));
+                const activeStreams = streamsList.filter(s => s.active);
+                
+                if (activeStreams.length > 0) {
+                    liveGrid.innerHTML = activeStreams.map(stream => `
+                        <div class="live-card">
+                            <iframe class="live-embed" 
+                                src="https://www.youtube.com/embed/${stream.videoId}?autoplay=0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                            <div class="live-info">
+                                <div class="live-creator">
+                                    ${stream.creatorName}
+                                    <span class="live-badge">LIVE</span>
+                                </div>
+                                <div class="live-title">${stream.title || 'Live Stream'}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                    noLiveStreams.style.display = 'none';
+                } else {
+                    liveGrid.innerHTML = '';
+                    noLiveStreams.style.display = 'block';
+                }
+            } else {
+                liveGrid.innerHTML = '';
+                noLiveStreams.style.display = 'block';
+            }
+        });
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const userProfileRef = ref(database, `user-profiles/${user.uid}`);
+                get(userProfileRef).then((snapshot) => {
+                    const profileData = snapshot.val();
+                    const username = profileData?.username || user.displayName || user.email?.split('@')[0] || 'User';
+                    
+                    userProfile.classList.add('logged-in');
+                    userName.textContent = username;
+                    userEmail.textContent = user.email || '';
+                    userAvatar.src = user.photoURL || 'Dark Silence Player Gizmo.png';
+                    userAvatar.onerror = () => { userAvatar.src = 'Dark Silence Player Gizmo.png'; };
+                    
+                    // Check if user is admin or event manager
+                    const managersRef = ref(database, 'event-managers');
+                    get(managersRef).then((managerSnapshot) => {
+                        const managers = managerSnapshot.val() || {};
+                        const isAdmin = user.uid === '47FjPEgemERVHf7cfdjx6pfILgA3';
+                        const isManager = managers[user.uid] !== undefined;
+                        
+                        if (isAdmin || isManager) {
+                            adminNavLink.style.display = 'block';
+                        }
+                        
+                        // Show content only for admin
+                        if (isAdmin) {
+                            heroSection.style.display = 'block';
+                            liveSection.style.display = 'block';
+                            ranksSection.style.display = 'block';
+                            creatorsSection.style.display = 'block';
+                            joinSection.style.display = 'block';
+                        } else {
+                            errorOverlay.style.display = 'flex';
+                        }
+                    });
+                });
+            } else {
+                userProfile.classList.remove('logged-in');
+                userName.textContent = 'Not logged in';
+                userEmail.textContent = '';
+                userAvatar.src = 'Dark Silence Player Gizmo.png';
+                adminNavLink.style.display = 'none';
+                
+                // Show error for non-logged in users
+                errorOverlay.style.display = 'flex';
+            }
+        });
+    </script>
+</body>
+</html>
