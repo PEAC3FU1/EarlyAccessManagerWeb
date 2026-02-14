@@ -664,7 +664,7 @@ footer {
 
 .user-profile {
     position: fixed;
-    top: 20px;
+    top: 80px;
     right: 20px;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -674,7 +674,7 @@ footer {
     display: flex;
     align-items: center;
     gap: 12px;
-    z-index: 1000;
+    z-index: 999;
     transition: all 0.3s ease;
 }
 
@@ -715,7 +715,7 @@ footer {
 
 @media (max-width: 768px) {
     .user-profile {
-        top: 10px;
+        top: 110px;
         right: 10px;
         padding: 8px 12px;
     }

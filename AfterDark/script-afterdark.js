@@ -1,5 +1,12 @@
 // Countdown Timer for After Dark
+let eventStatus = 'upcoming'; // Will be updated by Firebase
+
 function updateCountdown() {
+    // Don't update countdown if event is live or completed
+    if (eventStatus === 'live' || eventStatus === 'completed') {
+        return;
+    }
+    
     // February 12, 2026 at 5:00 PM EST (UTC-5)
     const eventDate = new Date('2026-02-12T17:00:00-05:00').getTime();
     const now = new Date().getTime();

@@ -158,6 +158,18 @@
             font-family: 'Rajdhani', sans-serif;
         }
         
+        .form-select option {
+            background: #1a1a2e;
+            color: white;
+            padding: 10px;
+        }
+        
+        .form-select:focus {
+            outline: none;
+            border-color: rgba(76, 175, 80, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
         .form-textarea {
             resize: vertical;
             min-height: 100px;
@@ -320,6 +332,18 @@
                 <i class="fi fi-rr-shield-check"></i>
                 Event Managers
             </div>
+            <div class="nav-item" data-page="updates">
+                <i class="fi fi-rr-megaphone"></i>
+                Site Updates
+            </div>
+            <div class="nav-item" data-page="live-control">
+                <i class="fi fi-rr-play-circle"></i>
+                Live Event Control
+            </div>
+            <div class="nav-item" data-page="livestreams">
+                <i class="fi fi-rr-video-camera"></i>
+                Live Streams
+            </div>
         </nav>
         <div style="margin-top: 30px;">
             <a href="index.html" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.9rem;">
@@ -480,8 +504,13 @@
                     </div>
                     
                     <div class="form-group">
+                        <label>Event Subtitle (Optional)</label>
+                        <input type="text" id="eventSubtitle" class="form-input" placeholder="Dark Silence Community Event">
+                    </div>
+                    
+                    <div class="form-group">
                         <label>Event Date</label>
-                        <input type="date" id="eventDate" class="form-input">
+                        <input type="text" id="eventDate" class="form-input" placeholder="February 14th, 2026">
                     </div>
                     
                     <div class="form-group">
@@ -504,12 +533,12 @@
                     </div>
                     
                     <div class="form-group">
-                        <label>Player Goal</label>
+                        <label>Player Goal (Optional)</label>
                         <input type="text" id="eventGoal" class="form-input" placeholder="50+ Players">
                     </div>
                     
                     <div class="form-group">
-                        <label>Host</label>
+                        <label>Host (Optional)</label>
                         <input type="text" id="eventHost" class="form-input" placeholder="Broseph">
                     </div>
                     
@@ -519,8 +548,38 @@
                     </div>
                     
                     <div class="form-group">
-                        <label>Event Page Link (Optional)</label>
-                        <input type="text" id="eventLink" class="form-input" placeholder="afterdark-event.html">
+                        <label>Badge Text (Optional)</label>
+                        <input type="text" id="eventBadgeText" class="form-input" placeholder="MONTH 2">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Event Heading (Optional)</label>
+                        <input type="text" id="eventHeading" class="form-input" placeholder="BIG EVENT UPCOMING">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Rewards Text (Optional)</label>
+                        <textarea id="eventRewards" class="form-textarea" placeholder="Join the event for a chance to get the NEW BUNDLE"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Activities (One per line, Optional)</label>
+                        <textarea id="eventActivities" class="form-textarea" placeholder="Meet players and post in #monkeys-you-met&#10;Make videos with the TOP 3 players&#10;Spread the word to your fellow players"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Footer Text (Optional)</label>
+                        <input type="text" id="eventFooterText" class="form-input" placeholder="I WAS THERE">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Countdown Date (Optional, for upcoming events)</label>
+                        <input type="datetime-local" id="eventCountdownDate" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Custom HTML (Optional, Advanced)</label>
+                        <textarea id="eventCustomHTML" class="form-textarea" placeholder="<div>Custom content here</div>" style="font-family: monospace;"></textarea>
                     </div>
                     
                     <div style="display: flex; gap: 10px; margin-top: 20px;">
@@ -534,7 +593,7 @@
                 <h3 style="color: white; margin-top: 40px; margin-bottom: 20px;">All Events</h3>
                 <div style="margin-bottom: 15px;">
                     <button id="addDefaultEventsBtn" class="btn btn-secondary">
-                        <i class="fi fi-rr-plus"></i> Add Default Events (After Dark & Find Creators)
+                        <i class="fi fi-rr-plus"></i> Add Default Events (After Dark, Valentines & Find Creators)
                     </button>
                 </div>
                 <div id="eventsList" class="notification-history"></div>
@@ -569,6 +628,238 @@
                 
                 <h3 style="color: white; margin-top: 40px; margin-bottom: 20px;">Current Event Managers</h3>
                 <div id="managersList" class="user-list"></div>
+            </div>
+            
+            <!-- Site Updates Section -->
+            <div class="page-section" id="updates">
+                <h1 style="color: white; font-family: 'Orbitron', sans-serif; margin-bottom: 30px;">Site Updates</h1>
+                
+                <div class="notification-creator">
+                    <h3>Create Update Announcement</h3>
+                    <p style="color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-bottom: 20px;">
+                        Create an update announcement that will show to all users when they visit the site. Users can close it and won't see it again.
+                    </p>
+                    
+                    <div class="form-group">
+                        <label>Update Title</label>
+                        <input type="text" id="updateTitle" class="form-input" placeholder="Version 2.0 - New Features!">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Update Version (Optional)</label>
+                        <input type="text" id="updateVersion" class="form-input" placeholder="v2.0.0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Update Date</label>
+                        <input type="date" id="updateDate" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Update Description</label>
+                        <textarea id="updateDescription" class="form-textarea" placeholder="Brief description of this update..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Update Log (One item per line)</label>
+                        <textarea id="updateLog" class="form-textarea" placeholder="Added new event system&#10;Fixed notification bugs&#10;Improved user interface&#10;Added profile customization" style="min-height: 150px;"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Accent Color</label>
+                        <div class="color-picker-group">
+                            <input type="color" id="updateAccentColor" class="color-picker" value="#4caf50">
+                            <input type="text" class="form-input" style="flex: 1;" id="updateAccentColorText" value="#4caf50">
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button id="publishUpdateBtn" class="btn btn-primary">
+                            <i class="fi fi-rr-megaphone"></i> Publish Update
+                        </button>
+                        <button id="clearUpdateBtn" class="btn btn-secondary">Clear</button>
+                    </div>
+                </div>
+                
+                <h3 style="color: white; margin-top: 40px; margin-bottom: 20px;">Published Updates</h3>
+                <div id="updatesList" class="notification-history"></div>
+            </div>
+            
+            <!-- Live Event Control Section -->
+            <div class="page-section" id="live-control">
+                <h1 style="color: white; font-family: 'Orbitron', sans-serif; margin-bottom: 30px;">Live Event Control</h1>
+                
+                <div class="notification-creator">
+                    <h3>Quick Event Controls</h3>
+                    <p style="color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-bottom: 20px;">
+                        Instantly start, end, or manage live events. Changes take effect immediately for all users.
+                    </p>
+                    
+                    <div class="form-group">
+                        <label>Select Event</label>
+                        <select id="liveEventSelect" class="form-select">
+                            <option value="">-- Select an event --</option>
+                        </select>
+                    </div>
+                    
+                    <div id="liveEventDetails" style="display: none;">
+                        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 25px; margin-bottom: 20px;">
+                            <h4 style="color: white; margin-bottom: 15px; font-size: 1.1rem;">Current Event Status</h4>
+                            <div style="display: grid; gap: 15px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="color: rgba(255,255,255,0.7);">Status:</span>
+                                    <span id="currentStatus" style="color: white; font-weight: 700; padding: 5px 15px; background: rgba(255,255,255,0.1); border-radius: 20px;"></span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="color: rgba(255,255,255,0.7);">Current Date:</span>
+                                    <span id="currentDate" style="color: white; font-weight: 600;"></span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="color: rgba(255,255,255,0.7);">Current Time:</span>
+                                    <span id="currentTime" style="color: white; font-weight: 600;"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 25px;">
+                            <button id="startEventBtn" class="btn btn-primary" style="background: rgba(76, 175, 80, 0.3); border-color: rgba(76, 175, 80, 0.5);">
+                                <i class="fi fi-rr-play"></i> Start Event
+                            </button>
+                            <button id="endEventBtn" class="btn btn-danger">
+                                <i class="fi fi-rr-stop"></i> End Event
+                            </button>
+                            <button id="setUpcomingBtn" class="btn btn-secondary">
+                                <i class="fi fi-rr-clock"></i> Set Upcoming
+                            </button>
+                            <button id="forceCompleteBtn" class="btn btn-danger" style="background: rgba(139, 0, 0, 0.3); border-color: rgba(139, 0, 0, 0.5);">
+                                <i class="fi fi-rr-cross-circle"></i> Force Complete End
+                            </button>
+                        </div>
+                        
+                        <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; margin-top: 25px;">
+                            <h4 style="color: white; margin-bottom: 20px; font-size: 1.1rem;">Modify Event Time</h4>
+                            
+                            <div class="form-group">
+                                <label>New Event Date</label>
+                                <input type="date" id="newEventDate" class="form-input">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>New Event Time</label>
+                                <input type="text" id="newEventTime" class="form-input" placeholder="5-6 PM EST">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Countdown Date/Time (for timer)</label>
+                                <input type="datetime-local" id="newCountdownDate" class="form-input">
+                            </div>
+                            
+                            <button id="updateEventTimeBtn" class="btn btn-primary">
+                                <i class="fi fi-rr-calendar-clock"></i> Update Event Time
+                            </button>
+                        </div>
+                        
+                        <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; margin-top: 25px;">
+                            <h4 style="color: white; margin-bottom: 20px; font-size: 1.1rem;">Quick Time Adjustments</h4>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;">
+                                <button class="btn btn-secondary btn-small" onclick="extendEvent(15)">
+                                    <i class="fi fi-rr-plus"></i> +15 min
+                                </button>
+                                <button class="btn btn-secondary btn-small" onclick="extendEvent(30)">
+                                    <i class="fi fi-rr-plus"></i> +30 min
+                                </button>
+                                <button class="btn btn-secondary btn-small" onclick="extendEvent(60)">
+                                    <i class="fi fi-rr-plus"></i> +1 hour
+                                </button>
+                                <button class="btn btn-secondary btn-small" onclick="postponeEvent(1)">
+                                    <i class="fi fi-rr-calendar"></i> +1 day
+                                </button>
+                                <button class="btn btn-secondary btn-small" onclick="postponeEvent(7)">
+                                    <i class="fi fi-rr-calendar"></i> +1 week
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; margin-top: 25px;">
+                            <h4 style="color: white; margin-bottom: 20px; font-size: 1.1rem;">Voting Controls</h4>
+                            
+                            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                    <span style="color: rgba(255,255,255,0.7);">Current Votes:</span>
+                                    <span id="currentVoteCount" style="color: white; font-weight: 700; font-size: 1.2rem;">0</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                    <span style="color: rgba(255,255,255,0.7);">Vote Limit:</span>
+                                    <span id="currentVoteLimit" style="color: white; font-weight: 700; font-size: 1.2rem;">15</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="color: rgba(255,255,255,0.7);">Voting Status:</span>
+                                    <span id="votingStatus" style="color: white; font-weight: 700; padding: 5px 15px; background: rgba(76, 175, 80, 0.2); border-radius: 20px;">Open</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Set Vote Limit</label>
+                                <input type="number" id="voteLimitInput" class="form-input" placeholder="15" min="1">
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+                                <button id="setVoteLimitBtn" class="btn btn-primary">
+                                    <i class="fi fi-rr-check"></i> Set Limit
+                                </button>
+                                <button id="closeVotingBtn" class="btn btn-danger">
+                                    <i class="fi fi-rr-lock"></i> Close Voting
+                                </button>
+                                <button id="openVotingBtn" class="btn btn-primary" style="background: rgba(76, 175, 80, 0.3); border-color: rgba(76, 175, 80, 0.5);">
+                                    <i class="fi fi-rr-unlock"></i> Open Voting
+                                </button>
+                                <button id="resetVotesBtn" class="btn btn-danger">
+                                    <i class="fi fi-rr-refresh"></i> Reset Votes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Live Streams Section -->
+            <div class="page-section" id="livestreams">
+                <h1 style="color: white; font-family: 'Orbitron', sans-serif; margin-bottom: 30px;">Live Streams Management</h1>
+                
+                <div class="card">
+                    <h2 style="color: white; margin-bottom: 20px;">Add Live Stream</h2>
+                    <div class="form-group">
+                        <label>Creator Name</label>
+                        <select id="streamCreatorSelect" class="form-input">
+                            <option value="">Select Creator</option>
+                            <option value="Broseph">Broseph</option>
+                            <option value="Pantherz_GTAG">Pantherz_GTAG</option>
+                            <option value="Go4tedVR">Go4tedVR</option>
+                            <option value="Jackallstar">Jackallstar</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>YouTube Video ID or URL</label>
+                        <input type="text" id="streamVideoId" class="form-input" placeholder="dQw4w9WgXcQ or https://youtube.com/watch?v=dQw4w9WgXcQ">
+                        <small style="color: rgba(255,255,255,0.5); font-size: 0.85rem;">Paste the YouTube livestream URL or just the video ID</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Stream Title (Optional)</label>
+                        <input type="text" id="streamTitle" class="form-input" placeholder="Dark Silence Gameplay">
+                    </div>
+                    
+                    <button id="addStreamBtn" class="btn btn-primary">
+                        <i class="fi fi-rr-plus"></i> Add Live Stream
+                    </button>
+                </div>
+                
+                <div class="card" style="margin-top: 30px;">
+                    <h2 style="color: white; margin-bottom: 20px;">Active Live Streams</h2>
+                    <div id="activeStreamsList"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -791,11 +1082,11 @@
         
         // Hide sections that managers can't access
         function hideRestrictedSections() {
-            // Hide notification and manager nav items
+            // Hide site updates and manager nav items (but allow notifications)
             const navItems = document.querySelectorAll('.nav-item');
             navItems.forEach(item => {
                 const page = item.dataset.page;
-                if (page === 'notifications' || page === 'history' || page === 'managers') {
+                if (page === 'history' || page === 'managers' || page === 'updates') {
                     item.style.display = 'none';
                 }
             });
@@ -858,6 +1149,10 @@
                     allEvents = Object.entries(events).map(([id, data]) => ({ id, ...data }));
                     allEvents.sort((a, b) => b.timestamp - a.timestamp);
                     displayEvents();
+                    populateEventSelect(); // Update live event control dropdown
+                } else {
+                    allEvents = [];
+                    populateEventSelect(); // Update even if no events
                 }
             });
             
@@ -1022,6 +1317,7 @@
         
         document.getElementById('clearEventBtn').addEventListener('click', () => {
             document.getElementById('eventName').value = '';
+            document.getElementById('eventSubtitle').value = '';
             document.getElementById('eventDate').value = '';
             document.getElementById('eventTime').value = '';
             document.getElementById('eventDescription').value = '';
@@ -1029,7 +1325,13 @@
             document.getElementById('eventGoal').value = '';
             document.getElementById('eventHost').value = '';
             document.getElementById('eventImage').value = '';
-            document.getElementById('eventLink').value = '';
+            document.getElementById('eventBadgeText').value = '';
+            document.getElementById('eventHeading').value = '';
+            document.getElementById('eventRewards').value = '';
+            document.getElementById('eventActivities').value = '';
+            document.getElementById('eventFooterText').value = '';
+            document.getElementById('eventCountdownDate').value = '';
+            document.getElementById('eventCustomHTML').value = '';
             editingEventId = null;
             document.getElementById('saveEventBtn').innerHTML = '<i class="fi fi-rr-disk"></i> Save Event';
         });
@@ -1044,8 +1346,13 @@
                 return;
             }
             
+            // Parse activities
+            const activitiesText = document.getElementById('eventActivities').value.trim();
+            const activities = activitiesText ? activitiesText.split('\n').filter(a => a.trim()) : [];
+            
             const eventData = {
                 name: name,
+                subtitle: document.getElementById('eventSubtitle').value.trim(),
                 date: date,
                 time: time,
                 description: document.getElementById('eventDescription').value.trim(),
@@ -1053,7 +1360,13 @@
                 goal: document.getElementById('eventGoal').value.trim(),
                 host: document.getElementById('eventHost').value.trim(),
                 image: document.getElementById('eventImage').value.trim(),
-                link: document.getElementById('eventLink').value.trim(),
+                badgeText: document.getElementById('eventBadgeText').value.trim(),
+                heading: document.getElementById('eventHeading').value.trim(),
+                rewards: document.getElementById('eventRewards').value.trim(),
+                activities: activities,
+                footerText: document.getElementById('eventFooterText').value.trim(),
+                countdownDate: document.getElementById('eventCountdownDate').value,
+                customHTML: document.getElementById('eventCustomHTML').value.trim(),
                 timestamp: Date.now()
             };
             
@@ -1066,7 +1379,7 @@
                     const eventsRef = ref(database, 'events');
                     const newEventRef = push(eventsRef);
                     await set(newEventRef, eventData);
-                    alert('Event created successfully!');
+                    alert('Event created successfully! Link: event-details.html?id=' + newEventRef.key);
                 }
                 
                 document.getElementById('clearEventBtn').click();
@@ -1082,6 +1395,7 @@
             
             editingEventId = id;
             document.getElementById('eventName').value = event.name;
+            document.getElementById('eventSubtitle').value = event.subtitle || '';
             document.getElementById('eventDate').value = event.date;
             document.getElementById('eventTime').value = event.time;
             document.getElementById('eventDescription').value = event.description || '';
@@ -1089,7 +1403,13 @@
             document.getElementById('eventGoal').value = event.goal || '';
             document.getElementById('eventHost').value = event.host || '';
             document.getElementById('eventImage').value = event.image || '';
-            document.getElementById('eventLink').value = event.link || '';
+            document.getElementById('eventBadgeText').value = event.badgeText || '';
+            document.getElementById('eventHeading').value = event.heading || '';
+            document.getElementById('eventRewards').value = event.rewards || '';
+            document.getElementById('eventActivities').value = event.activities ? event.activities.join('\n') : '';
+            document.getElementById('eventFooterText').value = event.footerText || '';
+            document.getElementById('eventCountdownDate').value = event.countdownDate || '';
+            document.getElementById('eventCustomHTML').value = event.customHTML || '';
             
             document.getElementById('saveEventBtn').innerHTML = '<i class="fi fi-rr-check"></i> Update Event';
             document.querySelector('[data-page="events"]').click();
@@ -1110,24 +1430,51 @@
         
         // Add default events button
         document.getElementById('addDefaultEventsBtn').addEventListener('click', async () => {
-            if (!confirm('This will add the default events (After Dark Month 2 and Find The DS Creators). Continue?')) return;
+            if (!confirm('This will add the default events (After Dark Month 2, Valentines Edition, and Find The DS Creators). Continue?')) return;
             
             try {
                 const defaultEvents = [
                     {
                         name: 'After Dark - Month 2',
+                        subtitle: 'Dark Silence Community Event',
                         date: 'February 12th, 2026',
                         time: '5-6 PM EST',
                         description: 'Join the After Dark event! Meet Broseph in-game and compete for the NEW BUNDLE.',
                         type: 'upcoming',
-                        goal: '50+ Players Goal',
-                        host: 'Broseph',
+                        goal: '50+ Players Online',
+                        host: 'Broseph (9.8K)',
                         image: 'assets/AfterDark.png',
                         link: 'afterdark-event.html',
+                        badgeText: 'MONTH 2',
+                        heading: 'BIG EVENT UPCOMING',
+                        rewards: 'Join the event for a chance to get the NEW BUNDLE\n(not the space pack)',
+                        activities: 'Meet players and post in #monkeys-you-met\nMake videos with the TOP 3 players\nSpread the word to your fellow players\nMeet Broseph in-game',
+                        footerText: 'I WAS THERE',
+                        countdownDate: '2026-02-12T17:00:00-05:00',
                         timestamp: Date.now()
                     },
                     {
+                        name: 'Find The DS Creators: Valentines Edition! ❤️',
+                        subtitle: 'Dark Silence Community Event',
+                        date: 'February 14th, 2026',
+                        time: '1-2 PM EST',
+                        description: 'Spread the love this Valentine\'s Day! Meet your favorite DS creators in-game.',
+                        type: 'upcoming',
+                        goal: '25+ Players',
+                        host: 'Pantherz_GTAG',
+                        image: 'assets/VALENTINES_DS.png',
+                        link: 'valentines-event.html',
+                        badgeText: 'UPCOMING',
+                        heading: 'Event Information',
+                        rewards: 'Participate in the event to earn the "I PARTICIPATED" role',
+                        activities: 'Find and meet your favorite DS creators in-game\nSpread the love this Valentine\'s Day! ❤️\nMake sure you\'re in the lobby, not Moon PVP\nHelp promote by making videos or shorts\nShare your favorite moments with the community',
+                        footerText: 'I PARTICIPATED ❤️',
+                        countdownDate: '2026-02-14T13:00:00-05:00',
+                        timestamp: Date.now() + 1000
+                    },
+                    {
                         name: 'Find The DS Creators',
+                        subtitle: 'Dark Silence Community Event',
                         date: 'January 31st, 2026',
                         time: '6 PM GMT / 1 PM EST',
                         description: 'Meet Go4tedVR, Jackallstar, and possibly Nik Daig in Dark Silence!',
@@ -1136,6 +1483,12 @@
                         host: 'Pantherz_gtag',
                         image: 'assets/ds_creators_logo.png',
                         link: 'findcreators-event.html',
+                        badgeText: 'EVENT FINISHED',
+                        heading: 'FIRST EVENT HAPPENED',
+                        rewards: 'Participate in the event to earn the "I PARTICIPATED" role',
+                        activities: 'Find and meet Go4tedVR in-game\nFind and meet Jackallstar in-game\nPossibly meet Nik Daig, the OWNER of Dark Silence\nMake sure you\'re in the lobby, not Moon PVP\nHelp promote by making videos or shorts',
+                        footerText: 'I PARTICIPATED',
+                        countdownDate: '2026-01-31T13:00:00-05:00',
                         timestamp: Date.now() - 1000000
                     }
                 ];
@@ -1371,6 +1724,630 @@
                 alert('Failed to update username: ' + error.message);
             }
         };
+        
+        // Site Updates Management
+        let allUpdates = [];
+        
+        // Color picker sync for updates
+        document.getElementById('updateAccentColor').addEventListener('input', (e) => {
+            document.getElementById('updateAccentColorText').value = e.target.value;
+        });
+        
+        // Set default date to today
+        document.getElementById('updateDate').valueAsDate = new Date();
+        
+        // Clear update form
+        document.getElementById('clearUpdateBtn').addEventListener('click', () => {
+            document.getElementById('updateTitle').value = '';
+            document.getElementById('updateVersion').value = '';
+            document.getElementById('updateDate').valueAsDate = new Date();
+            document.getElementById('updateDescription').value = '';
+            document.getElementById('updateLog').value = '';
+            document.getElementById('updateAccentColor').value = '#4caf50';
+            document.getElementById('updateAccentColorText').value = '#4caf50';
+        });
+        
+        // Publish update
+        document.getElementById('publishUpdateBtn').addEventListener('click', async () => {
+            const title = document.getElementById('updateTitle').value.trim();
+            const version = document.getElementById('updateVersion').value.trim();
+            const date = document.getElementById('updateDate').value;
+            const description = document.getElementById('updateDescription').value.trim();
+            const log = document.getElementById('updateLog').value.trim();
+            const accentColor = document.getElementById('updateAccentColor').value;
+            
+            if (!title) {
+                alert('Please enter an update title');
+                return;
+            }
+            
+            if (!log) {
+                alert('Please enter at least one update log item');
+                return;
+            }
+            
+            const logItems = log.split('\n').filter(item => item.trim());
+            
+            if (logItems.length === 0) {
+                alert('Please enter at least one update log item');
+                return;
+            }
+            
+            try {
+                const updateData = {
+                    title,
+                    version,
+                    date,
+                    description,
+                    logItems,
+                    accentColor,
+                    timestamp: Date.now(),
+                    active: true
+                };
+                
+                // Set as current update
+                const currentUpdateRef = ref(database, 'site-update');
+                await set(currentUpdateRef, updateData);
+                
+                // Also save to history
+                const updatesRef = ref(database, 'updates');
+                const newUpdateRef = push(updatesRef);
+                await set(newUpdateRef, updateData);
+                
+                alert('Update published successfully! Users will see it when they visit the site.');
+                document.getElementById('clearUpdateBtn').click();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to publish update: ' + error.message);
+            }
+        });
+        
+        // Display updates list
+        function displayUpdates() {
+            const updatesList = document.getElementById('updatesList');
+            
+            if (allUpdates.length === 0) {
+                updatesList.innerHTML = '<p style="color: rgba(255,255,255,0.5); text-align: center;">No updates published yet</p>';
+                return;
+            }
+            
+            updatesList.innerHTML = allUpdates.map(update => `
+                <div class="history-item">
+                    <div class="history-content">
+                        <div class="history-message">
+                            ${update.version ? `<span style="color: ${update.accentColor}; font-weight: 700;">${update.version}</span> - ` : ''}
+                            ${update.title}
+                        </div>
+                        <div class="history-meta">
+                            Published: ${new Date(update.timestamp).toLocaleString()}
+                            ${update.date ? ` | Date: ${update.date}` : ''}
+                        </div>
+                        ${update.description ? `<div style="color: rgba(255,255,255,0.7); margin-top: 10px;">${update.description}</div>` : ''}
+                        <div style="margin-top: 10px;">
+                            ${update.logItems.map(item => `<div style="color: rgba(255,255,255,0.6); font-size: 0.9rem; margin: 5px 0;">• ${item}</div>`).join('')}
+                        </div>
+                    </div>
+                    <div class="history-actions">
+                        <button class="btn btn-danger btn-small" onclick="deleteUpdate('${update.id}')">
+                            <i class="fi fi-rr-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        window.deleteUpdate = async function(updateId) {
+            if (!confirm('Delete this update from history?')) return;
+            
+            try {
+                const updateRef = ref(database, `updates/${updateId}`);
+                await remove(updateRef);
+                alert('Update deleted successfully!');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to delete update: ' + error.message);
+            }
+        };
+        
+        // Listen for updates
+        const updatesRef = ref(database, 'updates');
+        onValue(updatesRef, (snapshot) => {
+            const updates = snapshot.val();
+            if (updates) {
+                allUpdates = Object.entries(updates).map(([id, data]) => ({ id, ...data }));
+                allUpdates.sort((a, b) => b.timestamp - a.timestamp);
+            } else {
+                allUpdates = [];
+            }
+            displayUpdates();
+        });
+        
+        // Live Event Control
+        let selectedEventId = null;
+        let selectedEventData = null;
+        
+        // Populate event select dropdown
+        function populateEventSelect() {
+            const select = document.getElementById('liveEventSelect');
+            if (!select) return;
+            
+            select.innerHTML = '<option value="">-- Select an event --</option>';
+            
+            if (allEvents.length === 0) {
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = 'No events available';
+                option.disabled = true;
+                select.appendChild(option);
+                return;
+            }
+            
+            allEvents.forEach(event => {
+                const option = document.createElement('option');
+                option.value = event.id;
+                option.textContent = `${event.name} (${event.type})`;
+                select.appendChild(option);
+            });
+        }
+        
+        document.getElementById('liveEventSelect').addEventListener('change', (e) => {
+            selectedEventId = e.target.value;
+            
+            if (!selectedEventId) {
+                document.getElementById('liveEventDetails').style.display = 'none';
+                return;
+            }
+            
+            selectedEventData = allEvents.find(ev => ev.id === selectedEventId);
+            if (!selectedEventData) return;
+            
+            // Show details
+            document.getElementById('liveEventDetails').style.display = 'block';
+            
+            // Update status display
+            const statusMap = {
+                'upcoming': 'Upcoming',
+                'live': 'Live Now',
+                'completed': 'Completed'
+            };
+            document.getElementById('currentStatus').textContent = statusMap[selectedEventData.type] || selectedEventData.type;
+            document.getElementById('currentDate').textContent = selectedEventData.date || 'Not set';
+            document.getElementById('currentTime').textContent = selectedEventData.time || 'Not set';
+            
+            // Set form values
+            if (selectedEventData.date) {
+                try {
+                    const dateObj = new Date(selectedEventData.date);
+                    document.getElementById('newEventDate').value = dateObj.toISOString().split('T')[0];
+                } catch (e) {
+                    document.getElementById('newEventDate').value = '';
+                }
+            }
+            document.getElementById('newEventTime').value = selectedEventData.time || '';
+            if (selectedEventData.countdownDate) {
+                try {
+                    const countdownObj = new Date(selectedEventData.countdownDate);
+                    const localDateTime = new Date(countdownObj.getTime() - countdownObj.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+                    document.getElementById('newCountdownDate').value = localDateTime;
+                } catch (e) {
+                    document.getElementById('newCountdownDate').value = '';
+                }
+            }
+        });
+        
+        // Start Event
+        document.getElementById('startEventBtn').addEventListener('click', async () => {
+            if (!selectedEventId) return;
+            
+            if (!confirm('Start this event? It will be marked as LIVE NOW for all users.')) return;
+            
+            try {
+                const eventRef = ref(database, `events/${selectedEventId}`);
+                await update(eventRef, {
+                    type: 'live',
+                    updatedAt: Date.now()
+                });
+                alert('Event started! Status changed to LIVE NOW.');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to start event: ' + error.message);
+            }
+        });
+        
+        // End Event
+        document.getElementById('endEventBtn').addEventListener('click', async () => {
+            if (!selectedEventId) return;
+            
+            if (!confirm('End this event? It will be marked as COMPLETED.')) return;
+            
+            try {
+                const eventRef = ref(database, `events/${selectedEventId}`);
+                await update(eventRef, {
+                    type: 'completed',
+                    updatedAt: Date.now()
+                });
+                alert('Event ended! Status changed to COMPLETED.');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to end event: ' + error.message);
+            }
+        });
+        
+        // Set Upcoming
+        document.getElementById('setUpcomingBtn').addEventListener('click', async () => {
+            if (!selectedEventId) return;
+            
+            if (!confirm('Set this event as UPCOMING?')) return;
+            
+            try {
+                const eventRef = ref(database, `events/${selectedEventId}`);
+                await update(eventRef, {
+                    type: 'upcoming',
+                    updatedAt: Date.now()
+                });
+                alert('Event status changed to UPCOMING.');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to update event: ' + error.message);
+            }
+        });
+        
+        // Force Complete End (End event + Close voting)
+        document.getElementById('forceCompleteBtn').addEventListener('click', async () => {
+            if (!selectedEventId) return;
+            
+            if (!confirm('FORCE COMPLETE END? This will:\n- Mark event as COMPLETED\n- Close voting immediately\n\nContinue?')) return;
+            
+            try {
+                // End the event
+                const eventRef = ref(database, `events/${selectedEventId}`);
+                await update(eventRef, {
+                    type: 'completed',
+                    updatedAt: Date.now()
+                });
+                
+                // Close voting
+                const votingConfigRef = ref(database, 'voting-config');
+                await update(votingConfigRef, {
+                    open: false,
+                    closedAt: Date.now()
+                });
+                
+                alert('Event force completed! Event ended and voting closed.');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to force complete event: ' + error.message);
+            }
+        });
+        
+        // Update Event Time
+        document.getElementById('updateEventTimeBtn').addEventListener('click', async () => {
+            if (!selectedEventId) return;
+            
+            const newDate = document.getElementById('newEventDate').value;
+            const newTime = document.getElementById('newEventTime').value;
+            const newCountdown = document.getElementById('newCountdownDate').value;
+            
+            if (!newDate && !newTime && !newCountdown) {
+                alert('Please enter at least one field to update');
+                return;
+            }
+            
+            try {
+                const updates = {
+                    updatedAt: Date.now()
+                };
+                
+                if (newDate) {
+                    const dateObj = new Date(newDate);
+                    updates.date = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                }
+                
+                if (newTime) {
+                    updates.time = newTime;
+                }
+                
+                if (newCountdown) {
+                    updates.countdownDate = new Date(newCountdown).toISOString();
+                }
+                
+                const eventRef = ref(database, `events/${selectedEventId}`);
+                await update(eventRef, updates);
+                
+                alert('Event time updated successfully!');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to update event time: ' + error.message);
+            }
+        });
+        
+        // Extend Event (add minutes to countdown)
+        window.extendEvent = async function(minutes) {
+            if (!selectedEventId || !selectedEventData) return;
+            
+            if (!confirm(`Extend event by ${minutes} minutes?`)) return;
+            
+            try {
+                let countdownDate;
+                if (selectedEventData.countdownDate) {
+                    countdownDate = new Date(selectedEventData.countdownDate);
+                } else {
+                    countdownDate = new Date();
+                }
+                
+                countdownDate.setMinutes(countdownDate.getMinutes() + minutes);
+                
+                const eventRef = ref(database, `events/${selectedEventId}`);
+                await update(eventRef, {
+                    countdownDate: countdownDate.toISOString(),
+                    updatedAt: Date.now()
+                });
+                
+                alert(`Event extended by ${minutes} minutes!`);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to extend event: ' + error.message);
+            }
+        };
+        
+        // Postpone Event (add days)
+        window.postponeEvent = async function(days) {
+            if (!selectedEventId || !selectedEventData) return;
+            
+            if (!confirm(`Postpone event by ${days} day(s)?`)) return;
+            
+            try {
+                let countdownDate;
+                if (selectedEventData.countdownDate) {
+                    countdownDate = new Date(selectedEventData.countdownDate);
+                } else {
+                    countdownDate = new Date();
+                }
+                
+                countdownDate.setDate(countdownDate.getDate() + days);
+                
+                const updates = {
+                    countdownDate: countdownDate.toISOString(),
+                    date: countdownDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+                    updatedAt: Date.now()
+                };
+                
+                const eventRef = ref(database, `events/${selectedEventId}`);
+                await update(eventRef, updates);
+                
+                alert(`Event postponed by ${days} day(s)!`);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to postpone event: ' + error.message);
+            }
+        };
+        
+        // Load voting stats
+        function loadVotingStats() {
+            const voteCountRef = ref(database, 'cosmetic-votes/count');
+            onValue(voteCountRef, (snapshot) => {
+                const count = snapshot.val() || 0;
+                const countEl = document.getElementById('currentVoteCount');
+                if (countEl) countEl.textContent = count;
+            });
+            
+            const votingConfigRef = ref(database, 'voting-config');
+            onValue(votingConfigRef, (snapshot) => {
+                const config = snapshot.val() || {};
+                const limitEl = document.getElementById('currentVoteLimit');
+                const statusEl = document.getElementById('votingStatus');
+                
+                if (limitEl) limitEl.textContent = config.limit || 15;
+                if (statusEl) {
+                    const isOpen = config.open !== false;
+                    statusEl.textContent = isOpen ? 'Open' : 'Closed';
+                    statusEl.style.background = isOpen ? 'rgba(76, 175, 80, 0.2)' : 'rgba(244, 67, 54, 0.2)';
+                }
+            });
+        }
+        
+        // Set vote limit
+        document.getElementById('setVoteLimitBtn').addEventListener('click', async () => {
+            const limit = parseInt(document.getElementById('voteLimitInput').value);
+            
+            if (!limit || limit < 1) {
+                alert('Please enter a valid vote limit (minimum 1)');
+                return;
+            }
+            
+            if (!confirm(`Set vote limit to ${limit}?`)) return;
+            
+            try {
+                const votingConfigRef = ref(database, 'voting-config');
+                await update(votingConfigRef, {
+                    limit: limit,
+                    updatedAt: Date.now()
+                });
+                
+                alert(`Vote limit set to ${limit}!`);
+                document.getElementById('voteLimitInput').value = '';
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to set vote limit: ' + error.message);
+            }
+        });
+        
+        // Close voting
+        document.getElementById('closeVotingBtn').addEventListener('click', async () => {
+            if (!confirm('Close voting? Users will no longer be able to vote.')) return;
+            
+            try {
+                const votingConfigRef = ref(database, 'voting-config');
+                await update(votingConfigRef, {
+                    open: false,
+                    closedAt: Date.now()
+                });
+                
+                alert('Voting closed!');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to close voting: ' + error.message);
+            }
+        });
+        
+        // Open voting
+        document.getElementById('openVotingBtn').addEventListener('click', async () => {
+            if (!confirm('Open voting? Users will be able to vote again.')) return;
+            
+            try {
+                const votingConfigRef = ref(database, 'voting-config');
+                await update(votingConfigRef, {
+                    open: true,
+                    openedAt: Date.now()
+                });
+                
+                alert('Voting opened!');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to open voting: ' + error.message);
+            }
+        });
+        
+        // Reset votes
+        document.getElementById('resetVotesBtn').addEventListener('click', async () => {
+            if (!confirm('RESET ALL VOTES? This will delete all vote data and cannot be undone!')) return;
+            if (!confirm('Are you absolutely sure? This action is permanent!')) return;
+            
+            try {
+                const voteCountRef = ref(database, 'cosmetic-votes/count');
+                const voteUsersRef = ref(database, 'cosmetic-votes/users');
+                
+                await set(voteCountRef, 0);
+                await set(voteUsersRef, null);
+                
+                alert('All votes have been reset!');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to reset votes: ' + error.message);
+            }
+        });
+        
+        // Load voting stats on page load
+        loadVotingStats();
+        
+        // ===== LIVESTREAM MANAGEMENT =====
+        
+        // Load active streams
+        function loadActiveStreams() {
+            const streamsRef = ref(database, 'live-streams');
+            onValue(streamsRef, (snapshot) => {
+                const streams = snapshot.val();
+                const streamsList = document.getElementById('activeStreamsList');
+                
+                if (streams && Object.keys(streams).length > 0) {
+                    const streamEntries = Object.entries(streams).map(([id, data]) => ({ id, ...data }));
+                    
+                    streamsList.innerHTML = streamEntries.map(stream => `
+                        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 20px; margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                                <div>
+                                    <h3 style="color: white; margin-bottom: 5px;">${stream.creatorName}</h3>
+                                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 10px;">${stream.title || 'Live Stream'}</p>
+                                    <p style="color: rgba(255,255,255,0.5); font-size: 0.85rem;">Video ID: ${stream.videoId}</p>
+                                    <span style="display: inline-block; background: ${stream.active ? 'rgba(255,0,0,0.2)' : 'rgba(128,128,128,0.2)'}; border: 1px solid ${stream.active ? 'rgba(255,0,0,0.5)' : 'rgba(128,128,128,0.5)'}; padding: 4px 12px; border-radius: 15px; font-size: 0.8rem; color: ${stream.active ? '#ff0000' : 'rgba(255,255,255,0.5)'}; margin-top: 10px;">
+                                        ${stream.active ? '🔴 LIVE' : '⚫ Inactive'}
+                                    </span>
+                                </div>
+                                <div style="display: flex; gap: 10px;">
+                                    <button onclick="toggleStream('${stream.id}', ${!stream.active})" style="background: ${stream.active ? 'rgba(128,128,128,0.3)' : 'rgba(255,0,0,0.3)'}; border: 1px solid ${stream.active ? 'rgba(128,128,128,0.5)' : 'rgba(255,0,0,0.5)'}; color: white; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">
+                                        ${stream.active ? 'Deactivate' : 'Activate'}
+                                    </button>
+                                    <button onclick="deleteStream('${stream.id}')" style="background: rgba(255,0,0,0.3); border: 1px solid rgba(255,0,0,0.5); color: white; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                            <div style="aspect-ratio: 16/9; background: rgba(0,0,0,0.5); border-radius: 8px; overflow: hidden;">
+                                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${stream.videoId}" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    streamsList.innerHTML = '<p style="color: rgba(255,255,255,0.5); text-align: center; padding: 40px;">No live streams added yet</p>';
+                }
+            });
+        }
+        
+        // Add stream
+        document.getElementById('addStreamBtn').addEventListener('click', async () => {
+            const creator = document.getElementById('streamCreatorSelect').value;
+            const videoInput = document.getElementById('streamVideoId').value.trim();
+            const title = document.getElementById('streamTitle').value.trim();
+            
+            if (!creator) {
+                alert('Please select a creator');
+                return;
+            }
+            
+            if (!videoInput) {
+                alert('Please enter a YouTube video ID or URL');
+                return;
+            }
+            
+            // Extract video ID from URL if needed
+            let videoId = videoInput;
+            if (videoInput.includes('youtube.com') || videoInput.includes('youtu.be')) {
+                const urlParams = new URLSearchParams(new URL(videoInput).search);
+                videoId = urlParams.get('v') || videoInput.split('/').pop().split('?')[0];
+            }
+            
+            try {
+                const streamsRef = ref(database, 'live-streams');
+                const newStreamRef = push(streamsRef);
+                
+                await set(newStreamRef, {
+                    creatorName: creator,
+                    videoId: videoId,
+                    title: title || 'Live Stream',
+                    active: true,
+                    addedAt: Date.now()
+                });
+                
+                // Clear form
+                document.getElementById('streamCreatorSelect').value = '';
+                document.getElementById('streamVideoId').value = '';
+                document.getElementById('streamTitle').value = '';
+                
+                alert('Live stream added successfully!');
+            } catch (error) {
+                console.error('Error adding stream:', error);
+                alert('Failed to add stream: ' + error.message);
+            }
+        });
+        
+        // Toggle stream active status
+        window.toggleStream = async (streamId, active) => {
+            try {
+                const streamRef = ref(database, `live-streams/${streamId}`);
+                await update(streamRef, { active: active });
+                alert(active ? 'Stream activated!' : 'Stream deactivated!');
+            } catch (error) {
+                console.error('Error toggling stream:', error);
+                alert('Failed to toggle stream: ' + error.message);
+            }
+        };
+        
+        // Delete stream
+        window.deleteStream = async (streamId) => {
+            if (!confirm('Delete this live stream?')) return;
+            
+            try {
+                const streamRef = ref(database, `live-streams/${streamId}`);
+                await remove(streamRef);
+                alert('Stream deleted successfully!');
+            } catch (error) {
+                console.error('Error deleting stream:', error);
+                alert('Failed to delete stream: ' + error.message);
+            }
+        };
+        
+        // Load streams on page load
+        loadActiveStreams();
         
         updatePreview();
     </script>

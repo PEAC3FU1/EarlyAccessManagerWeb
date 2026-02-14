@@ -3,25 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find The DS Creators - Dark Silence Event</title>
-    <meta name="description" content="Find The DS Creators event - Meet Go4tedVR, Jackallstar, and possibly Nik Daig in Dark Silence! Monthly community event.">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Find The DS Creators Event">
-    <meta property="og:description" content="Find The DS Creators event - Meet Go4tedVR, Jackallstar, and possibly Nik Daig in Dark Silence! Monthly community event.">
-    <meta property="og:url" content="https://dark-silence-web.vercel.app/findcreators-event.html">
-    <meta property="og:image" content="https://dark-silence-web.vercel.app/assets/ds_creators_logo.png">
-    <meta property="og:site_name" content="Dark Silence Events">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Find The DS Creators Event">
-    <meta name="twitter:description" content="Find The DS Creators event - Meet Go4tedVR, Jackallstar, and possibly Nik Daig in Dark Silence! Monthly community event.">
-    <meta name="twitter:image" content="https://dark-silence-web.vercel.app/assets/ds_creators_logo.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Find The DS Creators Logo">
-    <meta name="theme-color" content="#1a1a2e">
+    <title id="pageTitle">Event Details - Dark Silence</title>
+    <meta name="description" id="pageDescription" content="Dark Silence Event Details">
     <link rel="icon" type="image/png" href="Dark Silence Player Gizmo.png">
-    <link rel="shortcut icon" type="image/png" href="Dark Silence Player Gizmo.png">
-    <link rel="apple-touch-icon" href="Dark Silence Player Gizmo.png">
     <link rel="stylesheet" href="style-events.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,7 +30,7 @@
     </div>
     
     <div class="user-profile" id="userProfile">
-        <img id="userAvatar" class="user-avatar-small" src="Dark Silence Player Gizmo.png" alt="Avatar">
+        <img id="userAvatar" class="user-avatar-small" src="assets/Dark Silence Player Gizmo.png" alt="Avatar">
         <div class="user-info-small">
             <div id="userName" class="user-name-small">Not logged in</div>
             <div id="userEmail" class="user-email-small"></div>
@@ -80,117 +64,80 @@
             <i class="fi fi-rr-angle-left"></i>
             Back to Events
         </a>
-        <header>
-            <img src="assets/ds_creators_logo.png" alt="Find The DS Creators Logo" class="logo">
-            <h1 class="title">FIND THE DS CREATORS</h1>
-            <p class="subtitle">Dark Silence Community Event</p>
-            <p style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.5); margin-top: 15px;">Made by PEAC3FU1 <span style="color: #ff0000;">♥</span></p>
-        </header>
+        
+        <div id="loadingEvent" style="text-align: center; color: white; padding: 100px;">
+            <p>Loading event...</p>
+        </div>
+        
+        <div id="eventNotFound" style="display: none; text-align: center; color: #ff6b6b; padding: 100px;">
+            <h2>Event Not Found</h2>
+            <p>The event you're looking for doesn't exist.</p>
+            <a href="index.html" class="event-btn" style="display: inline-block; margin-top: 20px;">Back to Events</a>
+        </div>
+        
+        <div id="eventContent" style="display: none;">
+            <header>
+                <img id="eventImage" src="assets/DarkSilence.png" alt="Event Logo" class="logo">
+                <h1 id="eventTitle" class="title">EVENT TITLE</h1>
+                <p id="eventSubtitle" class="subtitle">Event Subtitle</p>
+                <p style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.5); margin-top: 15px;">Made by PEAC3FU1 <span style="color: #ff0000;">♥</span></p>
+            </header>
 
-        <section class="event-info">
-            <div class="event-card main-event">
-                <div class="event-badge">EVENT FINISHED</div>
-                <h2>FIRST EVENT HAPPENED</h2>
-                <div class="event-details">
-                    <div class="detail-item">
-                        <i class="fi fi-rr-calendar icon-fi"></i>
-                        <div class="text">
-                            <strong>Date</strong>
-                            <p>January 31st, 2026</p>
-                        </div>
+            <section class="event-info">
+                <div class="event-card main-event">
+                    <div id="eventBadge" class="event-badge">EVENT</div>
+                    <h2 id="eventHeading">Event Information</h2>
+                    <div class="event-details" id="eventDetails"></div>
+                </div>
+
+                <div class="rewards-section" id="rewardsSection" style="display: none;">
+                    <h3>Event Rewards</h3>
+                    <div class="reward-card" id="rewardsContent"></div>
+                </div>
+
+                <div class="activities-section" id="activitiesSection" style="display: none;">
+                    <h3>Event Activities</h3>
+                    <ul class="activities-list" id="activitiesList"></ul>
+                </div>
+                
+                <div id="customContent"></div>
+            </section>
+
+            <section class="cta-section" id="ctaSection">
+                <a href="https://discord.gg/RYV67BC8du" target="_blank" class="discord-btn">
+                    <i class="fi fi-brands-discord btn-icon-fi"></i>
+                    Join Discord for More Info
+                </a>
+            </section>
+
+            <section class="countdown-section" id="countdownSection" style="display: none;">
+                <h3 id="countdownTitle">Time Until Event</h3>
+                <div id="countdown" class="countdown">
+                    <div class="time-unit">
+                        <span id="days" class="time-value">00</span>
+                        <span class="time-label">Days</span>
                     </div>
-                    <div class="detail-item">
-                        <i class="fi fi-rr-clock icon-fi"></i>
-                        <div class="text">
-                            <strong>Time</strong>
-                            <p>6 PM GMT / 1 PM EST</p>
-                        </div>
+                    <div class="time-unit">
+                        <span id="hours" class="time-value">00</span>
+                        <span class="time-label">Hours</span>
                     </div>
-                    <div class="detail-item">
-                        <i class="fi fi-rr-map-marker icon-fi"></i>
-                        <div class="text">
-                            <strong>Location</strong>
-                            <p>Any Server - Lobby Only (Not Moon PVP)</p>
-                        </div>
+                    <div class="time-unit">
+                        <span id="minutes" class="time-value">00</span>
+                        <span class="time-label">Minutes</span>
                     </div>
-                    <div class="detail-item">
-                        <i class="fi fi-rr-user icon-fi"></i>
-                        <div class="text">
-                            <strong>Host</strong>
-                            <p>Pantherz_gtag</p>
-                        </div>
+                    <div class="time-unit">
+                        <span id="seconds" class="time-value">00</span>
+                        <span class="time-label">Seconds</span>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="rewards-section">
-                <h3>Event Rewards</h3>
-                <div class="reward-card">
-                    <i class="fi fi-rr-badge reward-icon-fi"></i>
-                    <p>Participate in the event to earn the <strong>"I PARTICIPATED"</strong> role</p>
-                </div>
-            </div>
-
-            <div class="activities-section">
-                <h3>Meet Your Favorite Creators</h3>
-                <ul class="activities-list">
-                    <li>Find and meet Go4tedVR in-game</li>
-                    <li>Find and meet Jackallstar in-game</li>
-                    <li>Possibly meet Nik Daig, the OWNER of Dark Silence</li>
-                    <li>Make sure you're in the lobby, not Moon PVP</li>
-                    <li>Help promote by making videos or shorts</li>
-                </ul>
-            </div>
-
-            <div class="info-section">
-                <h3>About This Event</h3>
-                <div class="info-card">
-                    <p>This is a monthly event hosted by Pantherz_gtag inside of Dark Silence. Join any server and stay in the lobby to find your favorite DS creators. Check the announcements channel to see when the next event date is revealed!</p>
-                    <p class="credits-text">Massive credits to Broseph for creating After Dark before this event!</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="cta-section">
-            <a href="https://discord.gg/cRDQAB2K2j" target="_blank" class="discord-btn">
-                <i class="fi fi-brands-discord btn-icon-fi"></i>
-                Join Discord for Announcements
-            </a>
-            <a href="https://horizon.meta.com/social/group/join/1452428689579929/" target="_blank" class="discord-btn" style="margin-top: 15px;">
-                <i class="fi fi-brands-meta btn-icon-fi"></i>
-                Join Meta Horizon Group
-            </a>
-            <p class="server-ping">Check #announcements for event dates</p>
-        </section>
-
-        <section class="countdown-section">
-            <h3>Event Has Ended</h3>
-            <div id="countdown" class="countdown">
-                <div class="time-unit">
-                    <span id="days" class="time-value">00</span>
-                    <span class="time-label">Days</span>
-                </div>
-                <div class="time-unit">
-                    <span id="hours" class="time-value">00</span>
-                    <span class="time-label">Hours</span>
-                </div>
-                <div class="time-unit">
-                    <span id="minutes" class="time-value">00</span>
-                    <span class="time-label">Minutes</span>
-                </div>
-                <div class="time-unit">
-                    <span id="seconds" class="time-value">00</span>
-                    <span class="time-label">Seconds</span>
-                </div>
-            </div>
-        </section>
-
-        <footer>
-            <p class="footer-text">I PARTICIPATED</p>
-        </footer>
+            <footer>
+                <p class="footer-text" id="footerText">I WAS THERE</p>
+            </footer>
+        </div>
     </div>
 
-    <script src="script-findcreators.js"></script>
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
         import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
@@ -207,46 +154,160 @@
         const auth = getAuth(app);
         const database = getDatabase(app);
 
-        const userProfile = document.getElementById('userProfile');
-        const userName = document.getElementById('userName');
-        const userEmail = document.getElementById('userEmail');
-        const userAvatar = document.getElementById('userAvatar');
+        // Get event ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const eventId = urlParams.get('id');
 
-        // Request notification permission on page load (non-intrusive)
-        if ('Notification' in window && Notification.permission === 'default') {
-            setTimeout(() => {
-                Notification.requestPermission();
-            }, 5000);
+        if (!eventId) {
+            document.getElementById('loadingEvent').style.display = 'none';
+            document.getElementById('eventNotFound').style.display = 'block';
+        } else {
+            // Load event data
+            const eventRef = ref(database, `events/${eventId}`);
+            get(eventRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const event = snapshot.val();
+                    displayEvent(event);
+                } else {
+                    document.getElementById('loadingEvent').style.display = 'none';
+                    document.getElementById('eventNotFound').style.display = 'block';
+                }
+            });
         }
 
-        // Listen for push notification triggers
-        const pushTriggerRef = ref(database, 'push-trigger');
-        onValue(pushTriggerRef, (snapshot) => {
-            const pushData = snapshot.val();
-            if (pushData && pushData.timestamp) {
-                const pushId = 'push_' + pushData.timestamp;
-                const hasSeenPush = localStorage.getItem(pushId);
-                
-                if (!hasSeenPush && 'Notification' in window && Notification.permission === 'granted') {
-                    const notification = new Notification(pushData.title || 'Dark Silence Events', {
-                        body: pushData.message,
-                        icon: '/Dark Silence Player Gizmo.png',
-                        badge: '/Dark Silence Player Gizmo.png',
-                        tag: 'dark-silence-event',
-                        requireInteraction: false,
-                        vibrate: [200, 100, 200]
-                    });
-                    
-                    localStorage.setItem(pushId, 'true');
-                    
-                    notification.onclose = () => {
-                        localStorage.setItem(pushId, 'closed');
-                    };
-                }
-            }
-        });
+        function displayEvent(event) {
+            document.getElementById('loadingEvent').style.display = 'none';
+            document.getElementById('eventContent').style.display = 'block';
 
-        // Check for site notification
+            // Set page title and meta
+            document.getElementById('pageTitle').textContent = event.name + ' - Dark Silence Events';
+            document.getElementById('pageDescription').content = event.description || event.name;
+
+            // Set header
+            if (event.image) {
+                document.getElementById('eventImage').src = event.image;
+            }
+            document.getElementById('eventTitle').textContent = event.name;
+            document.getElementById('eventSubtitle').textContent = event.subtitle || 'Dark Silence Community Event';
+
+            // Set badge
+            const badge = document.getElementById('eventBadge');
+            if (event.type === 'live') {
+                badge.textContent = 'LIVE NOW';
+                badge.className = 'event-badge-live';
+            } else if (event.type === 'completed') {
+                badge.textContent = 'COMPLETED';
+                badge.className = 'event-badge-past';
+            } else {
+                badge.textContent = event.badgeText || 'UPCOMING';
+                badge.className = 'event-badge';
+            }
+
+            document.getElementById('eventHeading').textContent = event.heading || 'Event Information';
+
+            // Set event details
+            const detailsHTML = `
+                <div class="detail-item">
+                    <i class="fi fi-rr-calendar icon-fi"></i>
+                    <div class="text">
+                        <strong>Date</strong>
+                        <p>${event.date}</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fi fi-rr-clock icon-fi"></i>
+                    <div class="text">
+                        <strong>Time</strong>
+                        <p>${event.time}</p>
+                    </div>
+                </div>
+                ${event.goal ? `
+                <div class="detail-item">
+                    <i class="fi fi-rr-target icon-fi"></i>
+                    <div class="text">
+                        <strong>Goal</strong>
+                        <p>${event.goal}</p>
+                    </div>
+                </div>
+                ` : ''}
+                ${event.host ? `
+                <div class="detail-item">
+                    <i class="fi fi-rr-user icon-fi"></i>
+                    <div class="text">
+                        <strong>Host</strong>
+                        <p>${event.host}</p>
+                    </div>
+                </div>
+                ` : ''}
+            `;
+            document.getElementById('eventDetails').innerHTML = detailsHTML;
+
+            // Set rewards
+            if (event.rewards) {
+                document.getElementById('rewardsSection').style.display = 'block';
+                document.getElementById('rewardsContent').innerHTML = `
+                    <i class="fi fi-rr-gift reward-icon-fi"></i>
+                    <p>${event.rewards}</p>
+                `;
+            }
+
+            // Set activities
+            if (event.activities && event.activities.length > 0) {
+                document.getElementById('activitiesSection').style.display = 'block';
+                document.getElementById('activitiesList').innerHTML = event.activities.map(activity => 
+                    `<li>${activity}</li>`
+                ).join('');
+            }
+
+            // Set custom content
+            if (event.customHTML) {
+                document.getElementById('customContent').innerHTML = event.customHTML;
+            }
+
+            // Set footer text
+            if (event.footerText) {
+                document.getElementById('footerText').textContent = event.footerText;
+            }
+
+            // Countdown
+            if (event.countdownDate && event.type !== 'completed') {
+                document.getElementById('countdownSection').style.display = 'block';
+                startCountdown(event.countdownDate);
+            }
+        }
+
+        function startCountdown(targetDate) {
+            const countdownDate = new Date(targetDate).getTime();
+
+            const updateCountdown = () => {
+                const now = new Date().getTime();
+                const distance = countdownDate - now;
+
+                if (distance < 0) {
+                    document.getElementById('countdownTitle').textContent = 'Event Has Started!';
+                    document.getElementById('days').textContent = '00';
+                    document.getElementById('hours').textContent = '00';
+                    document.getElementById('minutes').textContent = '00';
+                    document.getElementById('seconds').textContent = '00';
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            };
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        // Notification handling (same as other pages)
         const notificationRef = ref(database, 'site-notification');
         onValue(notificationRef, (snapshot) => {
             const notification = snapshot.val();
@@ -305,9 +366,14 @@
             }
         });
 
+        // User profile handling
+        const userProfile = document.getElementById('userProfile');
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        const userAvatar = document.getElementById('userAvatar');
+
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                // Load user profile data
                 const userProfileRef = ref(database, `user-profiles/${user.uid}`);
                 const profileSnapshot = await get(userProfileRef);
                 const profileData = profileSnapshot.val();
@@ -316,10 +382,9 @@
                 userProfile.classList.add('logged-in');
                 userName.textContent = username;
                 userEmail.textContent = user.email || '';
-                userAvatar.src = user.photoURL || 'Dark Silence Player Gizmo.png';
-                userAvatar.onerror = () => { userAvatar.src = 'Dark Silence Player Gizmo.png'; };
+                userAvatar.src = user.photoURL || 'assets/Dark Silence Player Gizmo.png';
+                userAvatar.onerror = () => { userAvatar.src = 'assets/Dark Silence Player Gizmo.png'; };
                 
-                // Add click handler to open profile settings
                 userProfile.style.cursor = 'pointer';
                 userProfile.onclick = () => {
                     document.getElementById('profileModal').style.display = 'flex';
@@ -329,12 +394,12 @@
                 userProfile.classList.remove('logged-in');
                 userName.textContent = 'Not logged in';
                 userEmail.textContent = '';
-                userAvatar.src = 'Dark Silence Player Gizmo.png';
+                userAvatar.src = 'assets/Dark Silence Player Gizmo.png';
                 userProfile.style.cursor = 'default';
                 userProfile.onclick = null;
             }
         });
-        
+
         // Profile modal handlers
         document.getElementById('closeModalBtn').addEventListener('click', () => {
             document.getElementById('profileModal').style.display = 'none';
@@ -368,7 +433,6 @@
             }
         });
         
-        // Close modal on background click
         document.getElementById('profileModal').addEventListener('click', (e) => {
             if (e.target.id === 'profileModal') {
                 document.getElementById('profileModal').style.display = 'none';

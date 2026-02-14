@@ -8,13 +8,13 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="After Dark - Month 2 Event">
     <meta property="og:description" content="Join After Dark Month 2 on February 12th, 2026 at 5-6 PM EST. Meet Broseph in-game and compete for the NEW BUNDLE!">
-    <meta property="og:url" content="https://dark-silence-events.vercel.app/afterdark-event.html">
-    <meta property="og:image" content="https://dark-silence-events.vercel.app/assets/AfterDarkPreview.png?v=2">
+    <meta property="og:url" content="https://dark-silence-web.vercel.app/afterdark-event.html">
+    <meta property="og:image" content="https://dark-silence-web.vercel.app/assets/AfterDark.png">
     <meta property="og:site_name" content="Dark Silence Events">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="After Dark - Month 2 Event">
     <meta name="twitter:description" content="Join After Dark Month 2 on February 12th, 2026 at 5-6 PM EST. Meet Broseph in-game and compete for the NEW BUNDLE!">
-    <meta name="twitter:image" content="https://dark-silence-events.vercel.app/assets/AfterDarkPreview.png?v=2">
+    <meta name="twitter:image" content="https://dark-silence-web.vercel.app/assets/AfterDark.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="After Dark Event Logo">
@@ -46,7 +46,7 @@
     </div>
     
     <div class="user-profile" id="userProfile">
-        <img id="userAvatar" class="user-avatar-small" src="assets/Dark Silence Player Gizmo.png" alt="Avatar">
+        <img id="userAvatar" class="user-avatar-small" src="Dark Silence Player Gizmo.png" alt="Avatar">
         <div class="user-info-small">
             <div id="userName" class="user-name-small">Not logged in</div>
             <div id="userEmail" class="user-email-small"></div>
@@ -139,7 +139,7 @@
         </section>
 
         <section class="cta-section">
-            <a href="https://discord.gg/RYV67BC8du" target="_blank" class="discord-btn">
+            <a href="https://discord.gg/wh6YtSqgy8" target="_blank" class="discord-btn">
                 <i class="fi fi-brands-discord btn-icon-fi"></i>
                 Join Discord for More Info
             </a>
@@ -173,7 +173,6 @@
         </footer>
     </div>
 
-    <script src="script-afterdark.js"></script>
     <script type="module">
         // Firebase configuration
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
@@ -208,6 +207,100 @@
         const userAvatar = document.getElementById('userAvatar');
 
         let currentUser = null;
+        let eventStatus = 'upcoming';
+        
+        // Countdown Timer for After Dark
+        function updateCountdown() {
+            // Don't update countdown if event is live or completed
+            if (eventStatus === 'live' || eventStatus === 'completed') {
+                return;
+            }
+            
+            // February 12, 2026 at 5:00 PM EST (UTC-5)
+            const eventDate = new Date('2026-02-12T17:00:00-05:00').getTime();
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = '<div style="font-size: 2rem; color: #ff6b6b; font-weight: bold;">EVENT IS LIVE!</div>';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        // Start countdown
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+        
+        // Smooth scroll animation for cards
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.event-card, .rewards-section, .activities-section, .countdown-section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'slideIn 0.6s ease forwards';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                observer.observe(card);
+            });
+        });
+
+        // Add CSS animation dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Check event status from Firebase and update countdown accordingly
+        const afterDarkEventRef = ref(database, 'events');
+        onValue(afterDarkEventRef, (snapshot) => {
+            const events = snapshot.val();
+            if (events) {
+                // Find After Dark event
+                const afterDarkEvent = Object.values(events).find(e => 
+                    e.name && e.name.includes('After Dark') && e.name.includes('Month 2')
+                );
+                
+                if (afterDarkEvent) {
+                    // Update event status
+                    eventStatus = afterDarkEvent.type || 'upcoming';
+                    const countdownEl = document.getElementById('countdown');
+                    
+                    if (afterDarkEvent.type === 'completed') {
+                        // Event has ended
+                        countdownEl.innerHTML = '<div style="font-size: 2rem; color: #888; font-weight: bold;">EVENT HAS ENDED</div>';
+                    } else if (afterDarkEvent.type === 'live') {
+                        // Event is live
+                        countdownEl.innerHTML = '<div style="font-size: 2rem; color: #ff6b6b; font-weight: bold;">EVENT IS LIVE!</div>';
+                    }
+                    // If upcoming, let the normal countdown continue
+                }
+            }
+        });
 
         // Request notification permission on page load (non-intrusive)
         if ('Notification' in window && Notification.permission === 'default') {
@@ -307,6 +400,40 @@
             const count = snapshot.val() || 0;
             voteCountSpan.textContent = count;
         });
+        
+        // Check voting config
+        const votingConfigRef = ref(database, 'voting-config');
+        onValue(votingConfigRef, (snapshot) => {
+            const config = snapshot.val() || {};
+            const isOpen = config.open !== false;
+            const limit = config.limit || 15;
+            
+            // Update vote limit display
+            const voteCountText = document.querySelector('.vote-count');
+            if (voteCountText) {
+                const currentCount = voteCountSpan.textContent;
+                voteCountText.innerHTML = `<span id="voteCount">${currentCount}</span> / ${limit} votes`;
+            }
+            
+            // Disable voting if closed - override all other states
+            if (!isOpen && voteBtn) {
+                voteBtn.disabled = true;
+                voteBtn.classList.remove('voted');
+                voteBtn.classList.add('voting-closed');
+                voteBtn.innerHTML = '<i class="fi fi-rr-lock"></i> Voting Closed';
+                voteBtn.style.opacity = '0.5';
+                voteBtn.style.cursor = 'not-allowed';
+                voteBtn.style.background = 'rgba(244, 67, 54, 0.3)';
+                voteBtn.style.borderColor = 'rgba(244, 67, 54, 0.5)';
+            } else if (isOpen && voteBtn && voteBtn.classList.contains('voting-closed')) {
+                // Re-enable if voting was reopened
+                voteBtn.classList.remove('voting-closed');
+                voteBtn.style.opacity = '1';
+                voteBtn.style.cursor = 'pointer';
+                voteBtn.style.background = '';
+                voteBtn.style.borderColor = '';
+            }
+        });
 
         // Check authentication state
         onAuthStateChanged(auth, async (user) => {
@@ -339,6 +466,23 @@
                     // User hasn't voted yet
                     voteBtn.innerHTML = '<i class="fi fi-rr-thumbs-up"></i> Vote for This Cosmetic';
                     voteBtn.disabled = false;
+                    voteBtn.classList.remove('voted');
+                }
+                
+                // Check voting config after checking vote status
+                const votingConfigSnapshot = await get(ref(database, 'voting-config'));
+                const config = votingConfigSnapshot.val() || {};
+                const isOpen = config.open !== false;
+                
+                if (!isOpen) {
+                    voteBtn.disabled = true;
+                    voteBtn.classList.remove('voted');
+                    voteBtn.classList.add('voting-closed');
+                    voteBtn.innerHTML = '<i class="fi fi-rr-lock"></i> Voting Closed';
+                    voteBtn.style.opacity = '0.5';
+                    voteBtn.style.cursor = 'not-allowed';
+                    voteBtn.style.background = 'rgba(244, 67, 54, 0.3)';
+                    voteBtn.style.borderColor = 'rgba(244, 67, 54, 0.5)';
                 }
             } else {
                 // Update user profile display
