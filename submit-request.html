@@ -95,7 +95,93 @@
             margin-left: 280px;
             flex: 1;
             padding: 40px;
-            max-width: 900px;
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .game-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+        }
+        
+        .game-card-thumbnail {
+            width: 100%;
+            height: 180px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .game-card-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .game-card-content {
+            padding: 20px;
+        }
+        
+        .game-card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+        
+        .game-card-description {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .game-details-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        
+        .game-thumbnail {
+            width: 100%;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .game-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .game-info {
+            padding: 40px;
         }
         
         #submission-form-container {
@@ -150,21 +236,34 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Game Selection -->
-        <div id="game-selection">
-            <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 30px;">Select Game</h2>
-            <div class="search-box">
-                <div class="input-wrapper">
-                    <span class="input-prefix">Search:</span>
-                    <input type="text" id="game-search" placeholder="Enter game name..." autocomplete="off">
+        <!-- Game Gallery -->
+        <div id="game-gallery">
+            <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 10px;">Browse Games</h2>
+            <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 30px; font-size: 1rem;">Select a game to request early access</p>
+            <div id="games-grid" class="games-grid"></div>
+        </div>
+
+        <!-- Game Details -->
+        <div id="game-details" style="display: none;">
+            <button id="back-to-gallery" class="btn-text" style="margin-bottom: 20px;">← Back to Games</button>
+            <div class="game-details-card">
+                <div class="game-thumbnail">
+                    <img id="game-thumbnail-img" src="" alt="Game Thumbnail">
                 </div>
-                <div id="search-results" class="search-results"></div>
+                <div class="game-info">
+                    <h2 id="game-details-title" style="font-family: 'Orbitron', sans-serif; margin-bottom: 15px;"></h2>
+                    <p id="game-details-description" style="color: rgba(255, 255, 255, 0.7); line-height: 1.6; margin-bottom: 30px;"></p>
+                    <button id="request-access-btn" class="btn-primary btn-large">
+                        <i class="fi fi-sr-key"></i>
+                        <span id="btn-text">Get Early Access</span>
+                    </button>
+                </div>
             </div>
         </div>
 
         <!-- Submission Form -->
-        <div id="submission-form-container">
-            <button id="back-to-search" class="btn-text" style="margin-bottom: 20px;">← Back to Game Selection</button>
+        <div id="submission-form-container" style="display: none;">
+            <button id="back-to-details" class="btn-text" style="margin-bottom: 20px;">← Back to Game Details</button>
             <div class="form-card">
                 <h2><span id="selected-game-title"></span></h2>
                 <form id="submission-form">
@@ -193,6 +292,7 @@
     <script src="script.js"></script>
     <script>
         let selectedGame = null;
+        let userSubmission = null;
         
         // Check auth
         auth.onAuthStateChanged(async (user) => {
@@ -205,6 +305,12 @@
             
             // Load games
             await loadGames();
+            
+            // Check for existing submission
+            userSubmission = await checkUserSubmission(user.uid);
+            
+            // Display games gallery
+            displayGamesGallery();
             
             // Update greeting
             const profile = await database.ref(`user-profiles/${user.uid}`).once('value');
@@ -219,59 +325,102 @@
             hideLoading();
         });
         
-        // Game Search
-        const gameSearchInput = document.getElementById('game-search');
-        const searchResults = document.getElementById('search-results');
-        
-        gameSearchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
+        // Display Games Gallery
+        function displayGamesGallery() {
+            const gamesGrid = document.getElementById('games-grid');
             
-            if (query.length === 0) {
-                searchResults.classList.remove('active');
+            if (GAMES.length === 0) {
+                gamesGrid.innerHTML = '<p style="color: rgba(255, 255, 255, 0.6);">No games available</p>';
                 return;
             }
             
-            const filtered = GAMES.filter(game => 
-                game.name.toLowerCase().includes(query)
-            );
-            
-            displaySearchResults(filtered);
-        });
-        
-        function displaySearchResults(games) {
-            if (games.length === 0) {
-                searchResults.innerHTML = '<p style="color: var(--text-secondary); padding: 1rem; font-size: 0.9375rem;">No games found</p>';
-                searchResults.classList.add('active');
-                return;
-            }
-            
-            searchResults.innerHTML = games.map(game => `
-                <div class="game-item" data-game-id="${game.id}">
-                    <strong>${game.name}</strong>
+            gamesGrid.innerHTML = GAMES.map(game => `
+                <div class="game-card" data-game-id="${game.id}">
+                    <div class="game-card-thumbnail">
+                        <img src="${game.thumbnail || 'https://via.placeholder.com/400x300/000000/ffffff?text=' + encodeURIComponent(game.name)}" alt="${game.name}">
+                    </div>
+                    <div class="game-card-content">
+                        <div class="game-card-title">${game.name}</div>
+                        <div class="game-card-description">${game.description || 'Request early access to this game'}</div>
+                    </div>
                 </div>
             `).join('');
             
-            searchResults.classList.add('active');
-            
             // Add click handlers
-            document.querySelectorAll('.game-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    const gameId = item.dataset.gameId;
+            document.querySelectorAll('.game-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const gameId = card.dataset.gameId;
                     selectedGame = GAMES.find(g => g.id === gameId);
-                    showSubmissionForm();
+                    showGameDetails();
                 });
             });
         }
         
+        // Show Game Details
+        function showGameDetails() {
+            document.getElementById('game-gallery').style.display = 'none';
+            document.getElementById('game-details').style.display = 'block';
+            
+            document.getElementById('game-thumbnail-img').src = selectedGame.thumbnail || 'https://via.placeholder.com/800x400/000000/ffffff?text=' + encodeURIComponent(selectedGame.name);
+            document.getElementById('game-details-title').textContent = selectedGame.name;
+            document.getElementById('game-details-description').textContent = selectedGame.description || 'Request early access to unlock exclusive content and features before the official release.';
+            
+            // Check if user already has a submission for this game
+            const hasSubmission = userSubmission && userSubmission.gameId === selectedGame.id;
+            const btnText = document.getElementById('btn-text');
+            const requestBtn = document.getElementById('request-access-btn');
+            
+            if (hasSubmission) {
+                if (userSubmission.status === 'approved') {
+                    btnText.innerHTML = '<i class="fi fi-sr-key"></i> Get Code';
+                } else if (userSubmission.status === 'pending') {
+                    btnText.textContent = 'Pending Approval';
+                    requestBtn.disabled = true;
+                    requestBtn.style.opacity = '0.6';
+                    requestBtn.style.cursor = 'not-allowed';
+                } else {
+                    btnText.textContent = 'Get Early Access';
+                    requestBtn.disabled = false;
+                    requestBtn.style.opacity = '1';
+                    requestBtn.style.cursor = 'pointer';
+                }
+            } else {
+                btnText.textContent = 'Get Early Access';
+                requestBtn.disabled = false;
+                requestBtn.style.opacity = '1';
+                requestBtn.style.cursor = 'pointer';
+            }
+        }
+        
+        // Back to gallery
+        document.getElementById('back-to-gallery').addEventListener('click', () => {
+            document.getElementById('game-details').style.display = 'none';
+            document.getElementById('game-gallery').style.display = 'block';
+        });
+        
+        // Request access button
+        document.getElementById('request-access-btn').addEventListener('click', () => {
+            const hasSubmission = userSubmission && userSubmission.gameId === selectedGame.id;
+            
+            if (hasSubmission && userSubmission.status === 'approved') {
+                // Show code
+                alert(`Your verification code: ${userSubmission.verificationCode}`);
+                window.location.href = 'dashboard.html';
+            } else if (!hasSubmission || userSubmission.status === 'rejected') {
+                // Show submission form
+                showSubmissionForm();
+            }
+        });
+        
         function showSubmissionForm() {
-            document.getElementById('game-selection').style.display = 'none';
+            document.getElementById('game-details').style.display = 'none';
             document.getElementById('submission-form-container').style.display = 'block';
             document.getElementById('selected-game-title').textContent = selectedGame.name;
         }
         
-        document.getElementById('back-to-search').addEventListener('click', () => {
-            document.getElementById('game-selection').style.display = 'block';
+        document.getElementById('back-to-details').addEventListener('click', () => {
             document.getElementById('submission-form-container').style.display = 'none';
+            document.getElementById('game-details').style.display = 'block';
         });
         
         // Form submission
@@ -314,7 +463,7 @@
         
         // Sign out
         document.getElementById('signout-btn').addEventListener('click', (e) => {
-            e.preventDefault();
+            e.preventDefault;
             auth.signOut().then(() => {
                 window.location.href = 'index.html';
             });

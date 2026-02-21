@@ -230,7 +230,9 @@ async function loadGames() {
         const gamesData = snapshot.val();
         GAMES = Object.keys(gamesData).map(key => ({
             id: key,
-            name: gamesData[key].name
+            name: gamesData[key].name,
+            description: gamesData[key].description || '',
+            thumbnail: gamesData[key].thumbnail || ''
         }));
     } else {
         // If no games exist, show error
