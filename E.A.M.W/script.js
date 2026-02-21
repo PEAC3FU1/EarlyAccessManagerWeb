@@ -46,8 +46,14 @@ function hideLoading() {
 }
 
 function showScreen(screenName) {
+    console.log('Switching to screen:', screenName);
     Object.values(screens).forEach(screen => screen.classList.remove('active'));
-    screens[screenName].classList.add('active');
+    if (screens[screenName]) {
+        screens[screenName].classList.add('active');
+        console.log('Screen activated:', screenName);
+    } else {
+        console.error('Screen not found:', screenName);
+    }
 }
 
 function generateVerificationCode() {
@@ -56,6 +62,7 @@ function generateVerificationCode() {
 
 // Auth State Observer
 auth.onAuthStateChanged(async (user) => {
+    console.log('Auth state changed:', user ? 'Logged in' : 'Logged out');
     if (user) {
         currentUser = user;
         
@@ -82,6 +89,7 @@ auth.onAuthStateChanged(async (user) => {
         // Load dashboard data
         await loadDashboard(user);
         
+        console.log('Showing dashboard screen');
         // Show dashboard
         showScreen('dashboard');
     } else {
