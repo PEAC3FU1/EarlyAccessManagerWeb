@@ -27,6 +27,7 @@ let selectedGame = null;
 // DOM Elements
 const screens = {
     landing: document.getElementById('landing-screen'),
+    dashboard: document.getElementById('dashboard-screen'),
     search: document.getElementById('search-screen'),
     submission: document.getElementById('submission-screen'),
     status: document.getElementById('status-screen'),
@@ -75,26 +76,142 @@ auth.onAuthStateChanged(async (user) => {
             });
         }
         
-        // Check if admin
-        if (user.uid === ADMIN_UID) {
-            loadAdminDashboard();
-            showScreen('admin');
-        } else {
-            // Check for existing submission
-            const submission = await checkUserSubmission(user.uid);
-            if (submission) {
-                displayStatus(submission);
-                showScreen('status');
-            } else {
-                showScreen('search');
-            }
-        }
+        // Update navbar
+        updateNavbar(user);
+        
+        // Load dashboard data
+        await loadDashboard(user);
+        
+        // Show dashboard
+        showScreen('dashboard');
     } else {
         currentUser = null;
         showScreen('landing');
     }
     hideLoading();
 });
+
+// Update Navbar
+function updateNavbar(user) {
+    const navbar = document.getElementById('navbar');
+    const navLinks = document.getElementById('nav-links');
+    
+    if (user) {
+        navbar.classList.add('active');
+        
+        // Check if admin
+        if (user.uid === ADMIN_UID) {
+            navLinks.innerHTML = `
+                <a href="#" class="nav-link" data-screen="dashboard">
+                    <i class="fi fi-sr-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-link" data-screen="search">
+                    <i class="fi fi-sr-gamepad"></i>
+                    <span>Submit Request</span>
+                </a>
+                <a href="#" class="nav-link" data-screen="admin">
+                    <i class="fi fi-sr-shield-check"></i>
+                    <span>Admin Panel</span>
+                </a>
+                <a href="#" class="nav-link" id="nav-signout">
+                    <i class="fi fi-sr-sign-out-alt"></i>
+                    <span>Sign Out</span>
+                </a>
+            `;
+        } else {
+            navLinks.innerHTML = `
+                <a href="#" class="nav-link" data-screen="dashboard">
+                    <i class="fi fi-sr-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-link" data-screen="search">
+                    <i class="fi fi-sr-gamepad"></i>
+                    <span>Submit Request</span>
+                </a>
+                <a href="#" class="nav-link" id="nav-signout">
+                    <i class="fi fi-sr-sign-out-alt"></i>
+                    <span>Sign Out</span>
+                </a>
+            `;
+        }
+        
+        // Add click handlers
+        document.querySelectorAll('.nav-link[data-screen]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const screen = link.dataset.screen;
+                
+                // Remove active class from all links
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                if (screen === 'admin') {
+                    loadAdminDashboard();
+                }
+                
+                showScreen(screen);
+            });
+        });
+        
+        document.getElementById('nav-signout').addEventListener('click', (e) => {
+            e.preventDefault();
+            auth.signOut();
+            navbar.classList.remove('active');
+        });
+        
+        // Set dashboard as active by default
+        document.querySelector('.nav-link[data-screen="dashboard"]').classList.add('active');
+    } else {
+        navbar.classList.remove('active');
+    }
+}
+
+// Load Dashboard
+async function loadDashboard(user) {
+    // Update greeting
+    const userGreeting = document.getElementById('user-greeting');
+    const profile = await database.ref(`user-profiles/${user.uid}`).once('value');
+    const username = profile.val()?.username || user.displayName || 'User';
+    userGreeting.textContent = `Hello, ${username}!`;
+    
+    // Check for existing submission
+    const submission = await checkUserSubmission(user.uid);
+    const statusCard = document.getElementById('status-card');
+    const statusSummary = document.getElementById('status-summary');
+    const viewStatusBtn = document.getElementById('view-status-btn');
+    
+    if (submission) {
+        if (submission.status === 'pending') {
+            statusSummary.textContent = 'You have a pending request awaiting approval.';
+            statusCard.style.borderColor = 'rgba(255, 193, 7, 0.5)';
+        } else if (submission.status === 'approved') {
+            statusSummary.textContent = 'Your request has been approved! View your verification code.';
+            statusCard.style.borderColor = 'rgba(76, 175, 80, 0.6)';
+        } else if (submission.status === 'rejected') {
+            statusSummary.textContent = 'Your request was not approved.';
+            statusCard.style.borderColor = 'rgba(244, 67, 54, 0.5)';
+        }
+        
+        viewStatusBtn.onclick = () => {
+            displayStatus(submission);
+            showScreen('status');
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        };
+    } else {
+        statusSummary.textContent = 'No active requests. Submit a new request to get started.';
+        viewStatusBtn.disabled = true;
+        viewStatusBtn.style.opacity = '0.5';
+        viewStatusBtn.style.cursor = 'not-allowed';
+    }
+    
+    // Add click handler for submit card
+    document.querySelector('.dashboard-card[data-screen="search"]').onclick = () => {
+        showScreen('search');
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        document.querySelector('.nav-link[data-screen="search"]')?.classList.add('active');
+    };
+}
 
 // Load Games from Database
 async function loadGames() {

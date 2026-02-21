@@ -13,6 +13,17 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Navigation Bar -->
+    <nav id="navbar" class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fi fi-sr-shield-check"></i>
+                <span>Early Access Manager</span>
+            </div>
+            <div id="nav-links" class="nav-links"></div>
+        </div>
+    </nav>
+
     <!-- Landing Screen -->
     <div id="landing-screen" class="screen active">
         <div class="container-wide">
@@ -171,12 +182,41 @@
         </div>
     </div>
 
+    <!-- Dashboard Screen -->
+    <div id="dashboard-screen" class="screen">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2>Welcome Back</h2>
+                <p id="user-greeting"></p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card" data-screen="search">
+                    <div class="card-icon">
+                        <i class="fi fi-sr-gamepad"></i>
+                    </div>
+                    <h3>Submit New Request</h3>
+                    <p>Request early access for a game by submitting your player credentials.</p>
+                    <button class="btn-primary">Get Started</button>
+                </div>
+                
+                <div class="dashboard-card" id="status-card">
+                    <div class="card-icon">
+                        <i class="fi fi-sr-chart-line-up"></i>
+                    </div>
+                    <h3>View Status</h3>
+                    <p id="status-summary">Check the status of your access requests.</p>
+                    <button class="btn-secondary" id="view-status-btn">View Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Game Search Screen -->
     <div id="search-screen" class="screen">
         <div class="container">
             <div class="header">
                 <h2>Select Game</h2>
-                <button id="signout-btn" class="btn-text">Sign Out</button>
             </div>
             <div class="search-box">
                 <div class="input-wrapper">
@@ -193,7 +233,6 @@
         <div class="container">
             <div class="header">
                 <button id="back-to-search" class="btn-text">← Back</button>
-                <button id="signout-btn-2" class="btn-text">Sign Out</button>
             </div>
             <div class="form-card">
                 <h2><span id="selected-game-title"></span></h2>
@@ -217,7 +256,6 @@
         <div class="container">
             <div class="header">
                 <h2>Request Status</h2>
-                <button id="signout-btn-3" class="btn-text">Sign Out</button>
             </div>
             <div id="status-content"></div>
         </div>
@@ -228,7 +266,6 @@
         <div class="container">
             <div class="header">
                 <h2>Admin Dashboard</h2>
-                <button id="signout-btn-admin" class="btn-text">Sign Out</button>
             </div>
             <div id="pending-requests"></div>
         </div>
