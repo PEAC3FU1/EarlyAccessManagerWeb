@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Early Access Manager</title>
+    <title>Approved Games - Early Access Manager</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
@@ -97,6 +97,79 @@
             padding: 40px;
         }
         
+        .approved-games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .approved-game-card {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .approved-game-card:hover {
+            background: rgba(76, 175, 80, 0.15);
+            border-color: rgba(76, 175, 80, 0.5);
+            transform: translateY(-5px);
+        }
+        
+        .approved-badge {
+            display: inline-block;
+            background: rgba(76, 175, 80, 0.3);
+            border: 1px solid rgba(76, 175, 80, 0.6);
+            color: #4caf50;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+        }
+        
+        .game-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+        
+        .game-date {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        .get-code-btn {
+            width: 100%;
+            background: rgba(76, 175, 80, 0.3);
+            border: 1px solid rgba(76, 175, 80, 0.6);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .get-code-btn:hover {
+            background: rgba(76, 175, 80, 0.4);
+        }
+        
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
@@ -124,15 +197,15 @@
         </div>
         
         <nav class="nav-menu">
-            <a href="dashboard.html" class="nav-item active">
+            <a href="dashboard.html" class="nav-item">
                 <i class="fi fi-sr-home"></i>
                 <span>Dashboard</span>
             </a>
             <a href="submit-request.html" class="nav-item">
                 <i class="fi fi-sr-gamepad"></i>
-                <span>Submit Request</span>
+                <span>Browse Games</span>
             </a>
-            <a href="approved-games.html" class="nav-item">
+            <a href="approved-games.html" class="nav-item active">
                 <i class="fi fi-sr-check-circle"></i>
                 <span>Approved Games</span>
             </a>
@@ -149,30 +222,10 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <div class="dashboard-header">
-            <h2>Welcome Back</h2>
-            <p id="welcome-message"></p>
-        </div>
+        <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 10px;">Approved Games</h2>
+        <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 30px; font-size: 1rem;">View your approved early access requests</p>
         
-        <div class="dashboard-grid">
-            <a href="submit-request.html" class="dashboard-card" style="text-decoration: none;">
-                <div class="card-icon">
-                    <i class="fi fi-sr-gamepad"></i>
-                </div>
-                <h3>Submit New Request</h3>
-                <p>Request early access for a game by submitting your player credentials.</p>
-                <button class="btn-primary">Get Started</button>
-            </a>
-            
-            <div class="dashboard-card" id="status-card">
-                <div class="card-icon">
-                    <i class="fi fi-sr-chart-line-up"></i>
-                </div>
-                <h3>View Status</h3>
-                <p id="status-summary">Check the status of your access requests.</p>
-                <div id="status-content"></div>
-            </div>
-        </div>
+        <div id="approved-games-grid" class="approved-games-grid"></div>
     </div>
 
     <!-- Loading Overlay -->
@@ -185,7 +238,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="script.js"></script>
     <script>
-        // Check auth and load dashboard
+        // Check auth
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
                 window.location.href = 'index.html';
@@ -198,42 +251,60 @@
             const profile = await database.ref(`user-profiles/${user.uid}`).once('value');
             const username = profile.val()?.username || user.displayName || 'User';
             document.getElementById('user-greeting').textContent = username;
-            document.getElementById('welcome-message').textContent = `Hello, ${username}!`;
             
             // Show admin nav if admin
             if (user.uid === ADMIN_UID) {
                 document.getElementById('admin-nav').style.display = 'flex';
             }
             
-            // Load status
-            const submission = await checkUserSubmission(user.uid);
-            const statusCard = document.getElementById('status-card');
-            const statusSummary = document.getElementById('status-summary');
-            const statusContent = document.getElementById('status-content');
-            
-            if (submission) {
-                if (submission.status === 'pending') {
-                    statusSummary.textContent = 'You have a pending request awaiting approval.';
-                    statusCard.style.borderColor = 'rgba(255, 193, 7, 0.5)';
-                } else if (submission.status === 'approved') {
-                    statusSummary.textContent = 'Your request has been approved!';
-                    statusCard.style.borderColor = 'rgba(76, 175, 80, 0.6)';
-                    statusContent.innerHTML = `
-                        <div class="verification-code" style="margin-top: 20px;">
-                            <div class="code-display">${submission.verificationCode}</div>
-                            <button class="copy-btn" onclick="copyCode('${submission.verificationCode}')">Copy Code</button>
-                        </div>
-                    `;
-                } else if (submission.status === 'rejected') {
-                    statusSummary.textContent = 'Your request was not approved.';
-                    statusCard.style.borderColor = 'rgba(244, 67, 54, 0.5)';
-                }
-            } else {
-                statusSummary.textContent = 'No active requests. Submit a new request to get started.';
-            }
+            // Load approved games
+            loadApprovedGames(user.uid);
             
             hideLoading();
         });
+        
+        async function loadApprovedGames(userId) {
+            const submissionsRef = database.ref('submissions');
+            const snapshot = await submissionsRef.orderByChild('userId').equalTo(userId).once('value');
+            
+            const approvedGames = [];
+            if (snapshot.exists()) {
+                snapshot.forEach((childSnapshot) => {
+                    const data = childSnapshot.val();
+                    if (data.status === 'approved') {
+                        approvedGames.push({
+                            id: childSnapshot.key,
+                            ...data
+                        });
+                    }
+                });
+            }
+            
+            const grid = document.getElementById('approved-games-grid');
+            
+            if (approvedGames.length === 0) {
+                grid.innerHTML = '<p style="color: rgba(255, 255, 255, 0.6); text-align: center; padding: 40px; font-size: 1.1rem;">No approved games yet. Submit a request to get started!</p>';
+                return;
+            }
+            
+            // Sort by approval date (newest first)
+            approvedGames.sort((a, b) => (b.approvedAt || 0) - (a.approvedAt || 0));
+            
+            grid.innerHTML = approvedGames.map(game => {
+                const approvedDate = game.approvedAt ? new Date(game.approvedAt).toLocaleDateString() : 'Recently';
+                return `
+                    <a href="${game.gameId}.html" class="approved-game-card">
+                        <div class="approved-badge">✓ Approved</div>
+                        <div class="game-name">${game.gameName}</div>
+                        <div class="game-date">Approved on ${approvedDate}</div>
+                        <button class="get-code-btn">
+                            <i class="fi fi-sr-key"></i>
+                            Get Code
+                        </button>
+                    </a>
+                `;
+            }).join('');
+        }
         
         // Sign out
         document.getElementById('signout-btn').addEventListener('click', (e) => {
@@ -242,17 +313,6 @@
                 window.location.href = 'index.html';
             });
         });
-        
-        // Copy code function
-        window.copyCode = function(code) {
-            navigator.clipboard.writeText(code);
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = 'Copied!';
-            setTimeout(() => {
-                btn.textContent = originalText;
-            }, 2000);
-        };
     </script>
 </body>
 </html>
