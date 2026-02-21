@@ -319,12 +319,14 @@
             
             // Load games
             await loadGames();
+            console.log('Games loaded:', GAMES);
             
             // Check for existing submission
             userSubmission = await checkUserSubmission(user.uid);
             
             // Display games gallery
             displayGamesGallery(GAMES);
+            console.log('Gallery displayed');
             
             // Update greeting
             const profile = await database.ref(`user-profiles/${user.uid}`).once('value');
