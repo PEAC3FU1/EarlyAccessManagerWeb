@@ -243,7 +243,7 @@ async function loadGames() {
                 {
                     id: 'monke-minigames',
                     name: 'Monke Minigames',
-                    description: 'A collection of fun and challenging minigames featuring monkeys! Swing through levels, collect bananas, and compete with friends in this exciting multiplayer experience.',
+                    description: 'A Gorilla Tag fan game featuring Zero Grav, Speeding Wall, Glass Bridge, Shop, and Fanart section!',
                     thumbnail: 'https://early-access-manager-web.vercel.app/assets/monke-minigames.png'
                 }
             ];
@@ -255,7 +255,7 @@ async function loadGames() {
             {
                 id: 'monke-minigames',
                 name: 'Monke Minigames',
-                description: 'A collection of fun and challenging minigames featuring monkeys! Swing through levels, collect bananas, and compete with friends in this exciting multiplayer experience.',
+                description: 'A Gorilla Tag fan game featuring Zero Grav, Speeding Wall, Glass Bridge, Shop, and Fanart section!',
                 thumbnail: 'https://early-access-manager-web.vercel.app/assets/monke-minigames.png'
             }
         ];

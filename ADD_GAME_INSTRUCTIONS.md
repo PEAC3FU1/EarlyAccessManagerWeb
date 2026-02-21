@@ -30,7 +30,7 @@
 
 **Fields to add (click + icon for each):**
 - Field name: `name` → Value: `Monke Minigames`
-- Field name: `description` → Value: `A collection of fun and challenging minigames featuring monkeys! Swing through levels, collect bananas, and compete with friends in this exciting multiplayer experience.`
+- Field name: `description` → Value: `A Gorilla Tag fan game featuring Zero Grav, Speeding Wall, Glass Bridge, Shop, and Fanart section!`
 - Field name: `thumbnail` → Value: `https://early-access-manager-web.vercel.app/assets/monke-minigames.png`
 
 ## Result:
