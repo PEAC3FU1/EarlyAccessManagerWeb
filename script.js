@@ -104,6 +104,11 @@ function updateNavbar(user) {
     const navbar = document.getElementById('navbar');
     const navLinks = document.getElementById('nav-links');
     
+    // Check if navbar exists (only on index.html)
+    if (!navbar || !navLinks) {
+        return;
+    }
+    
     if (user) {
         navbar.classList.add('active');
         
@@ -162,7 +167,7 @@ function updateNavbar(user) {
             });
         });
         
-        document.getElementById('nav-signout').addEventListener('click', (e) => {
+        document.getElementById('nav-signout')?.addEventListener('click', (e) => {
             e.preventDefault();
             auth.signOut();
             navbar.classList.remove('active');
