@@ -294,10 +294,33 @@
                 if (timeLeft <= 0) {
                     clearInterval(modalTimerInterval);
                     closeCodeModal();
-                    alert('Code expired! Click "Get Your Code" again to view it.');
+                    expireCodeFromDashboard();
                 }
             }, 1000);
         };
+        
+        async function expireCodeFromDashboard() {
+            try {
+                // Find and delete the user's approved submission
+                const submissionsRef = database.ref('submissions');
+                const snapshot = await submissionsRef.orderByChild('userId').equalTo(currentUser.uid).once('value');
+                
+                if (snapshot.exists()) {
+                    snapshot.forEach((childSnapshot) => {
+                        const data = childSnapshot.val();
+                        if (data.status === 'approved') {
+                            // Delete the submission
+                            database.ref(`submissions/${childSnapshot.key}`).remove();
+                        }
+                    });
+                }
+                
+                alert('Code expired and deleted! You need to request approval again.');
+                location.reload();
+            } catch (error) {
+                console.error('Error expiring code:', error);
+            }
+        }
         
         // Close modal function
         function closeCodeModal() {
