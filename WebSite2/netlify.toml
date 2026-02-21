@@ -1,8 +1,0 @@
-[build]
-  publish = "."
-  
-# Redirect rules for SPA (if needed)
-# [[redirects]]
-#   from = "/*"
-#   to = "/index.html"
-#   status = 200
