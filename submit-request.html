@@ -363,11 +363,11 @@
             }
             
             gamesGrid.innerHTML = games.map(game => `
-                <a href="${game.id}.html" class="game-card" style="text-decoration: none; color: inherit;">
+                <a href="${game.id}.html" class="game-card" style="text-decoration: none; color: inherit; display: block;">
                     <div class="game-card-thumbnail">
                         <img src="${game.thumbnail || 'https://via.placeholder.com/400x300/000000/ffffff?text=' + encodeURIComponent(game.name)}" 
                              alt="${game.name}"
-                             onerror="this.src='https://via.placeholder.com/400x300/000000/ffffff?text=' + encodeURIComponent('${game.name}')">
+                             onerror="this.src='https://via.placeholder.com/400x300/000000/ffffff?text=${encodeURIComponent(game.name)}'">
                     </div>
                     <div class="game-card-content">
                         <div class="game-card-title">${game.name}</div>

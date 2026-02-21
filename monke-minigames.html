@@ -323,13 +323,42 @@
                     </div>
                 </div>
                 
-                <div class="access-section">
+                <div class="access-section" id="access-section">
                     <h3>Request Early Access</h3>
                     <p id="access-status">Get exclusive access before the official release!</p>
                     <button id="request-access-btn" class="btn-primary btn-large">
                         <i class="fi fi-sr-key"></i>
                         <span id="btn-text">Get Early Access</span>
                     </button>
+                </div>
+                
+                <!-- Code Display Section -->
+                <div id="code-display-section" style="display: none;">
+                    <div class="access-section" style="background: rgba(76, 175, 80, 0.2); border-color: rgba(76, 175, 80, 0.5);">
+                        <h3>Your Verification Code</h3>
+                        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">Enter this code in-game to unlock early access</p>
+                        <div class="verification-code">
+                            <div class="code-display" id="verification-code-display"></div>
+                            <button class="copy-btn" id="copy-code-btn">
+                                <i class="fi fi-sr-copy"></i>
+                                Copy Code
+                            </button>
+                        </div>
+                        <div style="margin-top: 25px; padding: 20px; background: rgba(255, 193, 7, 0.2); border: 1px solid rgba(255, 193, 7, 0.4); border-radius: 8px;">
+                            <div style="display: flex; align-items: center; gap: 15px; justify-content: center;">
+                                <i class="fi fi-sr-time-check" style="font-size: 2rem; color: rgba(255, 193, 7, 0.9);"></i>
+                                <div>
+                                    <div style="font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 700; color: #ffffff; margin-bottom: 5px;">
+                                        <span id="timer-seconds">20</span>s
+                                    </div>
+                                    <div style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem;">Code expires in</div>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="color: rgba(255, 255, 255, 0.5); font-size: 0.85rem; margin-top: 20px;">
+                            ⚠️ This code will expire after 20 seconds for security purposes
+                        </p>
+                    </div>
                 </div>
                 
                 <!-- Submission Form -->
@@ -429,13 +458,64 @@
             const hasSubmission = userSubmission && userSubmission.gameId === GAME_ID;
             
             if (hasSubmission && userSubmission.status === 'approved') {
-                // Show code
-                alert(`Your verification code: ${userSubmission.verificationCode}\n\nEnter this code in-game to unlock early access!`);
+                // Show code with timer
+                showCodeWithTimer(userSubmission.verificationCode);
             } else if (!hasSubmission || userSubmission.status === 'rejected') {
                 // Show submission form
                 document.getElementById('submission-form-container').style.display = 'block';
                 document.getElementById('submission-form-container').scrollIntoView({ behavior: 'smooth' });
             }
+        });
+        
+        let timerInterval = null;
+        
+        function showCodeWithTimer(code) {
+            // Hide access section, show code section
+            document.getElementById('access-section').style.display = 'none';
+            document.getElementById('code-display-section').style.display = 'block';
+            document.getElementById('verification-code-display').textContent = code;
+            
+            // Scroll to code
+            document.getElementById('code-display-section').scrollIntoView({ behavior: 'smooth' });
+            
+            // Start 20 second countdown
+            let timeLeft = 20;
+            const timerElement = document.getElementById('timer-seconds');
+            
+            // Clear any existing timer
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    // Hide code and show expired message
+                    document.getElementById('code-display-section').innerHTML = `
+                        <div class="access-section" style="background: rgba(244, 67, 54, 0.2); border-color: rgba(244, 67, 54, 0.5);">
+                            <i class="fi fi-sr-time-past" style="font-size: 4rem; color: rgba(244, 67, 54, 0.8); margin-bottom: 20px;"></i>
+                            <h3>Code Expired</h3>
+                            <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 30px;">Your verification code has expired for security purposes.</p>
+                            <button class="btn-primary" onclick="location.reload()">Get New Code</button>
+                        </div>
+                    `;
+                }
+            }, 1000);
+        }
+        
+        // Copy code button
+        document.getElementById('copy-code-btn').addEventListener('click', () => {
+            const code = document.getElementById('verification-code-display').textContent;
+            navigator.clipboard.writeText(code);
+            const btn = document.getElementById('copy-code-btn');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fi fi-sr-check"></i> Copied!';
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+            }, 2000);
         });
         
         // Form submission
