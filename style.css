@@ -154,6 +154,214 @@ body {
     color: #ffffff;
     letter-spacing: 0.15em;
     text-align: center;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.big-title i {
+    font-size: 3.5rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.made-by {
+    text-align: center;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 50px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.made-by .heart {
+    color: #ff0000;
+    font-size: 1.1rem;
+    display: inline-block;
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.1); }
+    50% { transform: scale(1); }
+}
+
+.made-by-sidebar {
+    font-size: 0.75rem !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+}
+
+.made-by-sidebar .heart {
+    color: #ff0000;
+    font-size: 0.85rem;
+    display: inline-block;
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+/* How It Works Section */
+.how-it-works-section {
+    margin-bottom: 80px;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.step-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 35px 30px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.step-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-5px);
+}
+
+.step-number {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.1);
+    letter-spacing: 0.1em;
+}
+
+.step-icon {
+    font-size: 2.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 20px;
+}
+
+.step-icon i {
+    font-size: 2.5rem;
+}
+
+.step-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #ffffff;
+}
+
+.step-card p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Security Section */
+.security-section {
+    margin-bottom: 80px;
+}
+
+.security-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.security-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 35px 30px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.security-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(76, 175, 80, 0.4);
+    transform: translateY(-5px);
+}
+
+.security-icon {
+    font-size: 3rem;
+    color: rgba(76, 175, 80, 0.8);
+    margin-bottom: 20px;
+}
+
+.security-icon i {
+    font-size: 3rem;
+}
+
+.security-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #ffffff;
+}
+
+.security-card p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Stats Section */
+.stats-section {
+    margin-bottom: 80px;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 50px 30px;
+    backdrop-filter: blur(10px);
+}
+
+.stat-box {
+    text-align: center;
+    padding: 20px;
+}
+
+.stat-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+}
+
+.stat-description {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* Big Title */
+.big-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 0.15em;
+    text-align: center;
     margin-bottom: 50px;
     display: flex;
     align-items: center;
@@ -925,12 +1133,30 @@ body {
         font-size: 2.5rem;
     }
     
+    .made-by {
+        font-size: 0.9rem;
+    }
+    
     .main-title {
         font-size: 2rem;
     }
     
     .hero-stats {
         grid-template-columns: 1fr;
+    }
+    
+    .steps-grid,
+    .security-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 30px 20px;
+    }
+    
+    .stat-value {
+        font-size: 2.2rem;
     }
     
     .features-grid {
