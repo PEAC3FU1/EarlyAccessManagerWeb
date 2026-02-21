@@ -251,6 +251,8 @@ signInButtons.forEach(btn => {
             const provider = new firebase.auth.GoogleAuthProvider();
             try {
                 await auth.signInWithPopup(provider);
+                // Redirect to dashboard after successful login
+                window.location.href = 'dashboard.html';
             } catch (error) {
                 console.error('Sign in error:', error);
                 alert('Sign in failed. Please try again.');

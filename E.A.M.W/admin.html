@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Early Access Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-rounded/css/uicons-solid-rounded.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 0;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+        
+        .sidebar-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .sidebar-header i {
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 15px;
+        }
+        
+        .sidebar-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            letter-spacing: 0.05em;
+        }
+        
+        .sidebar-header p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .nav-menu {
+            margin-bottom: 30px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            margin: 8px 0;
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+        
+        .nav-item i {
+            font-size: 1.2rem;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <i class="fi fi-sr-shield-check"></i>
+            <h2>Early Access Manager</h2>
+            <p id="user-greeting">Admin</p>
+        </div>
+        
+        <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fi fi-sr-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="submit-request.html" class="nav-item">
+                <i class="fi fi-sr-gamepad"></i>
+                <span>Submit Request</span>
+            </a>
+            <a href="admin.html" class="nav-item active">
+                <i class="fi fi-sr-shield-check"></i>
+                <span>Admin Panel</span>
+            </a>
+            <a href="#" class="nav-item" id="signout-btn">
+                <i class="fi fi-sr-sign-out-alt"></i>
+                <span>Sign Out</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 30px;">Admin Dashboard</h2>
+        <div id="pending-requests"></div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Check auth and admin status
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            if (user.uid !== ADMIN_UID) {
+                alert('Access denied. Admin only.');
+                window.location.href = 'dashboard.html';
+                return;
+            }
+            
+            currentUser = user;
+            
+            // Update greeting
+            const profile = await database.ref(`user-profiles/${user.uid}`).once('value');
+            const username = profile.val()?.username || user.displayName || 'Admin';
+            document.getElementById('user-greeting').textContent = username;
+            
+            // Load admin dashboard
+            loadAdminDashboard();
+            
+            hideLoading();
+        });
+        
+        // Load Admin Dashboard
+        function loadAdminDashboard() {
+            const pendingRequests = document.getElementById('pending-requests');
+            
+            // Listen for pending submissions in real-time
+            const submissionsRef = database.ref('submissions');
+            submissionsRef.orderByChild('status').equalTo('pending').on('value', (snapshot) => {
+                if (!snapshot.exists()) {
+                    pendingRequests.innerHTML = '<p style="color: rgba(255, 255, 255, 0.6); font-size: 1.05rem;">No pending requests</p>';
+                    return;
+                }
+                
+                const submissions = [];
+                snapshot.forEach((childSnapshot) => {
+                    submissions.push({
+                        id: childSnapshot.key,
+                        ...childSnapshot.val()
+                    });
+                });
+                
+                // Sort by submission time (newest first)
+                submissions.sort((a, b) => b.submittedAt - a.submittedAt);
+                
+                pendingRequests.innerHTML = submissions.map(data => {
+                    const submittedDate = new Date(data.submittedAt).toLocaleString();
+                    return `
+                        <div class="request-card">
+                            <div class="request-info">
+                                <p><strong>Game:</strong> ${data.gameName}</p>
+                                <p><strong>User:</strong> ${data.userName} (${data.userEmail})</p>
+                                <p><strong>Player ID:</strong> ${data.playerId}</p>
+                                <p><strong>Player Name:</strong> ${data.playerName}</p>
+                                <p><strong>Submitted:</strong> ${submittedDate}</p>
+                            </div>
+                            <div class="request-actions">
+                                <button class="btn-approve" onclick="approveRequest('${data.id}')">Approve</button>
+                                <button class="btn-reject" onclick="rejectRequest('${data.id}')">Reject</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            });
+        }
+        
+        // Approve Request
+        window.approveRequest = async function(submissionId) {
+            showLoading();
+            const code = generateVerificationCode();
+            
+            try {
+                await database.ref(`submissions/${submissionId}`).update({
+                    status: 'approved',
+                    verificationCode: code,
+                    approvedAt: Date.now()
+                });
+                alert('Request approved!');
+            } catch (error) {
+                console.error('Approval error:', error);
+                alert('Approval failed. Please try again.');
+            }
+            
+            hideLoading();
+        };
+        
+        // Reject Request
+        window.rejectRequest = async function(submissionId) {
+            showLoading();
+            
+            try {
+                await database.ref(`submissions/${submissionId}`).update({
+                    status: 'rejected',
+                    rejectedAt: Date.now()
+                });
+                alert('Request rejected.');
+            } catch (error) {
+                console.error('Rejection error:', error);
+                alert('Rejection failed. Please try again.');
+            }
+            
+            hideLoading();
+        };
+        
+        // Sign out
+        document.getElementById('signout-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>

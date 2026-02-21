@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Early Access Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-rounded/css/uicons-solid-rounded.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 0;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+        
+        .sidebar-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .sidebar-header i {
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 15px;
+        }
+        
+        .sidebar-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            letter-spacing: 0.05em;
+        }
+        
+        .sidebar-header p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .nav-menu {
+            margin-bottom: 30px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            margin: 8px 0;
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+        
+        .nav-item i {
+            font-size: 1.2rem;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <i class="fi fi-sr-shield-check"></i>
+            <h2>Early Access Manager</h2>
+            <p id="user-greeting">Loading...</p>
+        </div>
+        
+        <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-item active">
+                <i class="fi fi-sr-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="submit-request.html" class="nav-item">
+                <i class="fi fi-sr-gamepad"></i>
+                <span>Submit Request</span>
+            </a>
+            <a href="admin.html" class="nav-item" id="admin-nav" style="display: none;">
+                <i class="fi fi-sr-shield-check"></i>
+                <span>Admin Panel</span>
+            </a>
+            <a href="#" class="nav-item" id="signout-btn">
+                <i class="fi fi-sr-sign-out-alt"></i>
+                <span>Sign Out</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="dashboard-header">
+            <h2>Welcome Back</h2>
+            <p id="welcome-message"></p>
+        </div>
+        
+        <div class="dashboard-grid">
+            <a href="submit-request.html" class="dashboard-card" style="text-decoration: none;">
+                <div class="card-icon">
+                    <i class="fi fi-sr-gamepad"></i>
+                </div>
+                <h3>Submit New Request</h3>
+                <p>Request early access for a game by submitting your player credentials.</p>
+                <button class="btn-primary">Get Started</button>
+            </a>
+            
+            <div class="dashboard-card" id="status-card">
+                <div class="card-icon">
+                    <i class="fi fi-sr-chart-line-up"></i>
+                </div>
+                <h3>View Status</h3>
+                <p id="status-summary">Check the status of your access requests.</p>
+                <div id="status-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Check auth and load dashboard
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            currentUser = user;
+            
+            // Update greeting
+            const profile = await database.ref(`user-profiles/${user.uid}`).once('value');
+            const username = profile.val()?.username || user.displayName || 'User';
+            document.getElementById('user-greeting').textContent = username;
+            document.getElementById('welcome-message').textContent = `Hello, ${username}!`;
+            
+            // Show admin nav if admin
+            if (user.uid === ADMIN_UID) {
+                document.getElementById('admin-nav').style.display = 'flex';
+            }
+            
+            // Load status
+            const submission = await checkUserSubmission(user.uid);
+            const statusCard = document.getElementById('status-card');
+            const statusSummary = document.getElementById('status-summary');
+            const statusContent = document.getElementById('status-content');
+            
+            if (submission) {
+                if (submission.status === 'pending') {
+                    statusSummary.textContent = 'You have a pending request awaiting approval.';
+                    statusCard.style.borderColor = 'rgba(255, 193, 7, 0.5)';
+                } else if (submission.status === 'approved') {
+                    statusSummary.textContent = 'Your request has been approved!';
+                    statusCard.style.borderColor = 'rgba(76, 175, 80, 0.6)';
+                    statusContent.innerHTML = `
+                        <div class="verification-code" style="margin-top: 20px;">
+                            <div class="code-display">${submission.verificationCode}</div>
+                            <button class="copy-btn" onclick="copyCode('${submission.verificationCode}')">Copy Code</button>
+                        </div>
+                    `;
+                } else if (submission.status === 'rejected') {
+                    statusSummary.textContent = 'Your request was not approved.';
+                    statusCard.style.borderColor = 'rgba(244, 67, 54, 0.5)';
+                }
+            } else {
+                statusSummary.textContent = 'No active requests. Submit a new request to get started.';
+            }
+            
+            hideLoading();
+        });
+        
+        // Sign out
+        document.getElementById('signout-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            });
+        });
+        
+        // Copy code function
+        window.copyCode = function(code) {
+            navigator.clipboard.writeText(code);
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(() => {
+                btn.textContent = originalText;
+            }, 2000);
+        };
+    </script>
+</body>
+</html>

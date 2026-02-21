@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Request - Early Access Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-rounded/css/uicons-solid-rounded.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 0;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+        
+        .sidebar-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .sidebar-header i {
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 15px;
+        }
+        
+        .sidebar-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            letter-spacing: 0.05em;
+        }
+        
+        .sidebar-header p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .nav-menu {
+            margin-bottom: 30px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            margin: 8px 0;
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+        
+        .nav-item i {
+            font-size: 1.2rem;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 40px;
+            max-width: 900px;
+        }
+        
+        #submission-form-container {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <i class="fi fi-sr-shield-check"></i>
+            <h2>Early Access Manager</h2>
+            <p id="user-greeting">Loading...</p>
+        </div>
+        
+        <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fi fi-sr-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="submit-request.html" class="nav-item active">
+                <i class="fi fi-sr-gamepad"></i>
+                <span>Submit Request</span>
+            </a>
+            <a href="admin.html" class="nav-item" id="admin-nav" style="display: none;">
+                <i class="fi fi-sr-shield-check"></i>
+                <span>Admin Panel</span>
+            </a>
+            <a href="#" class="nav-item" id="signout-btn">
+                <i class="fi fi-sr-sign-out-alt"></i>
+                <span>Sign Out</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Game Selection -->
+        <div id="game-selection">
+            <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 30px;">Select Game</h2>
+            <div class="search-box">
+                <div class="input-wrapper">
+                    <span class="input-prefix">Search:</span>
+                    <input type="text" id="game-search" placeholder="Enter game name..." autocomplete="off">
+                </div>
+                <div id="search-results" class="search-results"></div>
+            </div>
+        </div>
+
+        <!-- Submission Form -->
+        <div id="submission-form-container">
+            <button id="back-to-search" class="btn-text" style="margin-bottom: 20px;">← Back to Game Selection</button>
+            <div class="form-card">
+                <h2><span id="selected-game-title"></span></h2>
+                <form id="submission-form">
+                    <div class="form-group">
+                        <label for="player-id">Player ID</label>
+                        <input type="text" id="player-id" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="player-name">In-Game Username</label>
+                        <input type="text" id="player-name" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Submit Request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="script.js"></script>
+    <script>
+        let selectedGame = null;
+        
+        // Check auth
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            currentUser = user;
+            
+            // Load games
+            await loadGames();
+            
+            // Update greeting
+            const profile = await database.ref(`user-profiles/${user.uid}`).once('value');
+            const username = profile.val()?.username || user.displayName || 'User';
+            document.getElementById('user-greeting').textContent = username;
+            
+            // Show admin nav if admin
+            if (user.uid === ADMIN_UID) {
+                document.getElementById('admin-nav').style.display = 'flex';
+            }
+            
+            hideLoading();
+        });
+        
+        // Game Search
+        const gameSearchInput = document.getElementById('game-search');
+        const searchResults = document.getElementById('search-results');
+        
+        gameSearchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            
+            if (query.length === 0) {
+                searchResults.classList.remove('active');
+                return;
+            }
+            
+            const filtered = GAMES.filter(game => 
+                game.name.toLowerCase().includes(query)
+            );
+            
+            displaySearchResults(filtered);
+        });
+        
+        function displaySearchResults(games) {
+            if (games.length === 0) {
+                searchResults.innerHTML = '<p style="color: var(--text-secondary); padding: 1rem; font-size: 0.9375rem;">No games found</p>';
+                searchResults.classList.add('active');
+                return;
+            }
+            
+            searchResults.innerHTML = games.map(game => `
+                <div class="game-item" data-game-id="${game.id}">
+                    <strong>${game.name}</strong>
+                </div>
+            `).join('');
+            
+            searchResults.classList.add('active');
+            
+            // Add click handlers
+            document.querySelectorAll('.game-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const gameId = item.dataset.gameId;
+                    selectedGame = GAMES.find(g => g.id === gameId);
+                    showSubmissionForm();
+                });
+            });
+        }
+        
+        function showSubmissionForm() {
+            document.getElementById('game-selection').style.display = 'none';
+            document.getElementById('submission-form-container').style.display = 'block';
+            document.getElementById('selected-game-title').textContent = selectedGame.name;
+        }
+        
+        document.getElementById('back-to-search').addEventListener('click', () => {
+            document.getElementById('game-selection').style.display = 'block';
+            document.getElementById('submission-form-container').style.display = 'none';
+        });
+        
+        // Form submission
+        document.getElementById('submission-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            showLoading();
+            
+            const playerId = document.getElementById('player-id').value.trim();
+            const playerName = document.getElementById('player-name').value.trim();
+            
+            try {
+                const userProfileRef = database.ref(`user-profiles/${currentUser.uid}`);
+                const profileSnapshot = await userProfileRef.once('value');
+                const profile = profileSnapshot.val();
+                
+                const submissionRef = database.ref('submissions').push();
+                await submissionRef.set({
+                    userId: currentUser.uid,
+                    userEmail: currentUser.email,
+                    userName: profile?.username || currentUser.displayName,
+                    gameId: selectedGame.id,
+                    gameName: selectedGame.name,
+                    playerId: playerId,
+                    playerName: playerName,
+                    status: 'pending',
+                    submittedAt: Date.now(),
+                    verificationCode: null,
+                    verified: false
+                });
+                
+                alert('Request submitted successfully!');
+                window.location.href = 'dashboard.html';
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert('Submission failed. Please try again.');
+            }
+            
+            hideLoading();
+        });
+        
+        // Sign out
+        document.getElementById('signout-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>
