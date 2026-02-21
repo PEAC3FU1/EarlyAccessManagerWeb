@@ -223,20 +223,42 @@ async function loadDashboard(user) {
 
 // Load Games from Database
 async function loadGames() {
-    const gamesRef = database.ref('games');
-    const snapshot = await gamesRef.once('value');
-    
-    if (snapshot.exists()) {
-        const gamesData = snapshot.val();
-        GAMES = Object.keys(gamesData).map(key => ({
-            id: key,
-            name: gamesData[key].name,
-            description: gamesData[key].description || '',
-            thumbnail: gamesData[key].thumbnail || ''
-        }));
-    } else {
-        // If no games exist, show error
-        GAMES = [];
+    try {
+        const gamesRef = database.ref('games');
+        const snapshot = await gamesRef.once('value');
+        
+        if (snapshot.exists()) {
+            const gamesData = snapshot.val();
+            GAMES = Object.keys(gamesData).map(key => ({
+                id: key,
+                name: gamesData[key].name,
+                description: gamesData[key].description || '',
+                thumbnail: gamesData[key].thumbnail || ''
+            }));
+            console.log('Games loaded from Firebase:', GAMES);
+        } else {
+            // Fallback: Add default game if no games in database
+            console.log('No games in Firebase, using fallback');
+            GAMES = [
+                {
+                    id: 'monke-minigames',
+                    name: 'Monke Minigames',
+                    description: 'A collection of fun and challenging minigames featuring monkeys! Swing through levels, collect bananas, and compete with friends in this exciting multiplayer experience.',
+                    thumbnail: 'https://early-access-manager-web.vercel.app/assets/monke-minigames.png'
+                }
+            ];
+        }
+    } catch (error) {
+        console.error('Error loading games:', error);
+        // Fallback on error
+        GAMES = [
+            {
+                id: 'monke-minigames',
+                name: 'Monke Minigames',
+                description: 'A collection of fun and challenging minigames featuring monkeys! Swing through levels, collect bananas, and compete with friends in this exciting multiplayer experience.',
+                thumbnail: 'https://early-access-manager-web.vercel.app/assets/monke-minigames.png'
+            }
+        ];
     }
 }
 
