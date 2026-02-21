@@ -239,7 +239,16 @@
         <!-- Game Gallery -->
         <div id="game-gallery">
             <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 10px;">Browse Games</h2>
-            <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 30px; font-size: 1rem;">Select a game to request early access</p>
+            <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 20px; font-size: 1rem;">Select a game to request early access</p>
+            
+            <!-- Search Box -->
+            <div class="search-box" style="margin-bottom: 30px;">
+                <div class="input-wrapper">
+                    <span class="input-prefix">Search:</span>
+                    <input type="text" id="game-search" placeholder="Search games..." autocomplete="off">
+                </div>
+            </div>
+            
             <div id="games-grid" class="games-grid"></div>
         </div>
 
@@ -293,6 +302,7 @@
     <script>
         let selectedGame = null;
         let userSubmission = null;
+        let allGames = [];
         
         // Check auth
         auth.onAuthStateChanged(async (user) => {
@@ -310,7 +320,7 @@
             userSubmission = await checkUserSubmission(user.uid);
             
             // Display games gallery
-            displayGamesGallery();
+            displayGamesGallery(GAMES);
             
             // Update greeting
             const profile = await database.ref(`user-profiles/${user.uid}`).once('value');
@@ -325,19 +335,39 @@
             hideLoading();
         });
         
-        // Display Games Gallery
-        function displayGamesGallery() {
-            const gamesGrid = document.getElementById('games-grid');
+        // Search functionality
+        const gameSearchInput = document.getElementById('game-search');
+        gameSearchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
             
-            if (GAMES.length === 0) {
-                gamesGrid.innerHTML = '<p style="color: rgba(255, 255, 255, 0.6);">No games available</p>';
+            if (query.length === 0) {
+                displayGamesGallery(GAMES);
                 return;
             }
             
-            gamesGrid.innerHTML = GAMES.map(game => `
+            const filtered = GAMES.filter(game => 
+                game.name.toLowerCase().includes(query) ||
+                (game.description && game.description.toLowerCase().includes(query))
+            );
+            
+            displayGamesGallery(filtered);
+        });
+        
+        // Display Games Gallery
+        function displayGamesGallery(games) {
+            const gamesGrid = document.getElementById('games-grid');
+            
+            if (games.length === 0) {
+                gamesGrid.innerHTML = '<p style="color: rgba(255, 255, 255, 0.6); text-align: center; padding: 40px; font-size: 1.1rem;">No games found. Please add games to Firebase Database.</p>';
+                return;
+            }
+            
+            gamesGrid.innerHTML = games.map(game => `
                 <div class="game-card" data-game-id="${game.id}">
                     <div class="game-card-thumbnail">
-                        <img src="${game.thumbnail || 'https://via.placeholder.com/400x300/000000/ffffff?text=' + encodeURIComponent(game.name)}" alt="${game.name}">
+                        <img src="${game.thumbnail || 'https://via.placeholder.com/400x300/000000/ffffff?text=' + encodeURIComponent(game.name)}" 
+                             alt="${game.name}"
+                             onerror="this.src='https://via.placeholder.com/400x300/000000/ffffff?text=' + encodeURIComponent('${game.name}')">
                     </div>
                     <div class="game-card-content">
                         <div class="game-card-title">${game.name}</div>
@@ -350,7 +380,7 @@
             document.querySelectorAll('.game-card').forEach(card => {
                 card.addEventListener('click', () => {
                     const gameId = card.dataset.gameId;
-                    selectedGame = GAMES.find(g => g.id === gameId);
+                    selectedGame = games.find(g => g.id === gameId);
                     showGameDetails();
                 });
             });
@@ -362,6 +392,9 @@
             document.getElementById('game-details').style.display = 'block';
             
             document.getElementById('game-thumbnail-img').src = selectedGame.thumbnail || 'https://via.placeholder.com/800x400/000000/ffffff?text=' + encodeURIComponent(selectedGame.name);
+            document.getElementById('game-thumbnail-img').onerror = function() {
+                this.src = 'https://via.placeholder.com/800x400/000000/ffffff?text=' + encodeURIComponent(selectedGame.name);
+            };
             document.getElementById('game-details-title').textContent = selectedGame.name;
             document.getElementById('game-details-description').textContent = selectedGame.description || 'Request early access to unlock exclusive content and features before the official release.';
             
@@ -372,7 +405,7 @@
             
             if (hasSubmission) {
                 if (userSubmission.status === 'approved') {
-                    btnText.innerHTML = '<i class="fi fi-sr-key"></i> Get Code';
+                    btnText.textContent = 'Get Code';
                 } else if (userSubmission.status === 'pending') {
                     btnText.textContent = 'Pending Approval';
                     requestBtn.disabled = true;
@@ -463,7 +496,7 @@
         
         // Sign out
         document.getElementById('signout-btn').addEventListener('click', (e) => {
-            e.preventDefault;
+            e.preventDefault();
             auth.signOut().then(() => {
                 window.location.href = 'index.html';
             });
