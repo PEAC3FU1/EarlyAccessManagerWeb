@@ -315,8 +315,16 @@
             
             currentUser = user;
             
-            // Load games
-            await loadGames();
+            // Hardcoded games - no need to load from Firebase
+            GAMES = [
+                {
+                    id: 'monke-minigames',
+                    name: 'Monke Minigames',
+                    description: 'A Gorilla Tag fan game featuring Zero Grav, Speeding Wall, Glass Bridge, Shop, and Fanart section!',
+                    thumbnail: 'assets/monke-minigames.png'
+                }
+            ];
+            
             console.log('Games loaded:', GAMES);
             
             // Check for existing submission
