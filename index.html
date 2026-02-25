@@ -388,10 +388,52 @@
     <div id="loading-overlay" class="loading-overlay">
         <div class="spinner"></div>
     </div>
+    
+    <!-- Startup Loading Sequence -->
+    <div id="startup-loading" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000000; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px;">
+        <i class="fi fi-sr-shield-check" style="font-size: 4rem; color: rgba(255, 255, 255, 0.9);"></i>
+        <h2 style="font-family: 'Orbitron', sans-serif; font-size: 2rem; color: #ffffff; letter-spacing: 0.1em;">Early Access Manager</h2>
+        <div style="width: 400px; max-width: 90%;">
+            <div id="startup-message" style="font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; color: rgba(255, 255, 255, 0.7); margin-bottom: 20px; text-align: center; min-height: 30px;">
+                Running diagnostic...
+            </div>
+            <div style="width: 100%; height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; overflow: hidden;">
+                <div id="startup-progress" style="width: 0%; height: 100%; background: linear-gradient(90deg, rgba(76, 175, 80, 0.8), rgba(76, 175, 80, 1)); transition: width 0.3s ease;"></div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Startup loading sequence
+        window.addEventListener('DOMContentLoaded', () => {
+            const startupLoading = document.getElementById('startup-loading');
+            const startupMessage = document.getElementById('startup-message');
+            const startupProgress = document.getElementById('startup-progress');
+            
+            // Step 1: Running diagnostic (0-50%)
+            setTimeout(() => {
+                startupProgress.style.width = '50%';
+            }, 300);
+            
+            // Step 2: Authenticating (50-100%)
+            setTimeout(() => {
+                startupMessage.textContent = 'Authenticating...';
+                startupProgress.style.width = '100%';
+            }, 1500);
+            
+            // Step 3: Hide loading screen
+            setTimeout(() => {
+                startupLoading.style.opacity = '0';
+                startupLoading.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => {
+                    startupLoading.style.display = 'none';
+                }, 500);
+            }, 2500);
+        });
+    </script>
 </body>
 </html>
